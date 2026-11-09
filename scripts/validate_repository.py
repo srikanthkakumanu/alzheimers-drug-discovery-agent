@@ -175,9 +175,11 @@ def check_settings(report: Report, settings: dict[str, Any]) -> None:
     if settings.get('data_mode') != 'synthetic-demonstration':
         report.fail(where, 'repository must remain in synthetic-demonstration mode')
     execution = settings.get('execution', {})
-    for key in ('agent_runtime', 'automatic_promotion', 'live_integrations'):
+    if not isinstance(execution.get('agent_runtime'), bool):
+        report.fail(where, 'agent_runtime must be an explicit boolean')
+    for key in ('automatic_promotion', 'live_integrations'):
         if execution.get(key) is not False:
-            report.fail(where, f'{key} must be false until an application runtime is approved')
+            report.fail(where, f'{key} must be false: promotion is human-only and research connectors are disabled')
     if (execution.get('native_claude_settings') is not True
             or execution.get('native_settings_path') != '.claude/settings.json'):
         report.fail(where, 'native Claude customization must point to .claude/settings.json')

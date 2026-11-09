@@ -5,11 +5,12 @@
   "data_mode": "synthetic-demonstration",
   "as_of": "2026-11-09",
   "execution": {
-    "agent_runtime": false,
+    "agent_runtime": true,
     "native_claude_settings": true,
     "automatic_promotion": false,
     "live_integrations": false,
-    "native_settings_path": ".claude/settings.json"
+    "native_settings_path": ".claude/settings.json",
+    "application": "src/neuroquest (first slice: reviewer, portfolio, human decision)"
   },
   "context": {
     "estimate": "ceil(UTF-8 bytes / 4); heuristic, not a tokenizer",
@@ -24,7 +25,7 @@
     "bulk_imports": false
   },
   "llm_policy": {
-    "enforcement": "documented policy; no application client exists yet",
+    "enforcement": "enforced by src/neuroquest: per-run USD cap checked before each call",
     "provider": "openai",
     "sdk": "openai-python, called directly in LangGraph nodes",
     "tiers": {
@@ -43,7 +44,8 @@
     "prompt_caching": "automatic provider prefix caching; measure cached_tokens, never assume",
     "tracing": "langsmith (LANGSMITH_TRACING); synthetic and public data only",
     "monthly_budget_usd": null,
-    "per_run_budget_usd": null
+    "per_run_budget_usd": 0.1,
+    "prices": "NEUROQUEST_MODEL_PRICES (USD per 1M tokens per model ID); runs fail safely without them"
   },
   "memory": {
     "mode": "manual-linked-files",
@@ -59,7 +61,7 @@
       "experiments": 20,
       "literature": 23,
       "memory": 12,
-      "adr": 20
+      "adr": 21
     }
   }
 }

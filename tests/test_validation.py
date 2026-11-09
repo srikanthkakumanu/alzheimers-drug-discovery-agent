@@ -160,7 +160,7 @@ class DecisionRecordTests(RepositoryTestCase):
         self.assert_error('ADR status must be one of')
 
     def test_accepted_adr_requires_review_date(self) -> None:
-        self.update_record('adr/ADR-001.md', lambda m: m.update(status='accepted'))
+        self.update_record('adr/ADR-001.md', lambda m: (m.update(status='accepted'), m.pop('reviewed_on', None)))
         self.assert_error('accepted ADR needs an ISO reviewed_on date')
 
     def test_adr_requires_standard_sections(self) -> None:

@@ -19,7 +19,7 @@
         {
           "uses": "actions/setup-python@v6",
           "with": {
-            "python-version": "3.12"
+            "python-version": "3.13"
           }
         },
         {
@@ -29,6 +29,41 @@
         {
           "name": "Run validator and hook tests",
           "run": "python3 -m unittest discover -s tests -v"
+        }
+      ]
+    },
+    "application": {
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 10,
+      "env": {
+        "NEUROQUEST_OFFLINE": "1"
+      },
+      "steps": [
+        {
+          "uses": "actions/checkout@v5"
+        },
+        {
+          "uses": "astral-sh/setup-uv@v6"
+        },
+        {
+          "name": "Install locked dependencies",
+          "run": "uv sync --frozen"
+        },
+        {
+          "name": "Lint",
+          "run": "uv run ruff check src tests/app && uv run ruff format --check src tests/app"
+        },
+        {
+          "name": "Type-check (strict)",
+          "run": "uv run mypy"
+        },
+        {
+          "name": "Offline tests",
+          "run": "uv run pytest -q"
+        },
+        {
+          "name": "Build image",
+          "run": "docker build -t neuroquest:ci ."
         }
       ]
     }

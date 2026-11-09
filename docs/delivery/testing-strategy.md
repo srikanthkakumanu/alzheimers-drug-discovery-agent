@@ -13,6 +13,9 @@ How the repository and the future application are tested without spending API bu
 | Evaluation EV-01–13 | pytest `-m eval` + LangSmith dataset | Live OpenAI, capped budget | Manual dispatch |
 | Static quality | ruff, `mypy --strict` | None | Every push |
 
+## As built (2026-11-09)
+`tests/app/` (pytest, 40 tests): records and validator parity, budget and prompts, graph runs with `FakeLLM` (pause, gate override, decisions, budget stop, preflight), CLI exit codes, OpenAI client repair/refusal handling with a stub. `conftest.py` blocks sockets, clears `NEUROQUEST_*`/`OPENAI_*`/`LANGSMITH_*`/`TAVILY_*` variables, and never loads `.env`. Live: `tests/app/test_eval_live.py` (`-m eval`).
+
 ## Rules
 - Default CI never calls OpenAI, LangSmith, or Tavily: `NEUROQUEST_OFFLINE=1` makes the LLM client raise if used, and tests block outbound sockets.
 - The fake LLM is a typed object implementing the same interface as the real client; graph tests assert edges (skip, reviewer→researcher once, block, partial, interrupt/resume), not wording.

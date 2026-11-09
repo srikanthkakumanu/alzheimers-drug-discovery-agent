@@ -2,6 +2,9 @@
 
 Dated record of documentation passes. Newest first. Scientific content is not re-verified by these passes unless stated.
 
+## 2026-11-09 — Implementation: first slice
+Owner authorized implementation, accepted ADR-001–010, chose Python 3.13 (ADR-021 supersedes ADR-012) and a $0.10 per-run cap. Built `src/neuroquest/`: Pydantic records/handoffs/runs, loader, deterministic scoring and `enforce_gates`, budget with preflight (key, model IDs, prices), OpenAI Responses + Structured Outputs client with one repair attempt, prompts composed from role contracts, LangGraph graph with SQLite checkpoints and human-decision interrupt, append-only decision store, Typer CLI, Dockerfile, CI job. 40 offline tests; ruff and `mypy --strict` clean; image builds and refuses to run without a key. Validator now allows `agent_runtime: true`.
+
 ## 2026-11-09 — Pass 4: gap fixes and tooling rewrite
 - **Tooling:** validator rewritten schema-based (minimum counts in `config/settings.json`; rating-evidence, score-history, ADR, `.env` deny-rule, runtime-ignore checks; links in code fences ignored). Hook reports a missing validator and truncated failures. Tests 39 → 53. `.claude/settings.json` denies Claude `Read`/`Edit` of `.env`. CI actions updated (checkout v5, setup-python v6).
 - **Decisions:** TD-01–10 became accepted ADR-011–020; ADR-004, 008, 010 updated.

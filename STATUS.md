@@ -4,14 +4,15 @@ Updated **2026-11-09**. This file is the single source of truth for project phas
 
 | Area | State |
 | --- | --- |
-| Phase | **Design package complete; awaiting owner review.** No application implementation authorized. |
-| Active task | [Owner review](TASK.md) |
-| Decisions | ADR-001–010 **proposed**; ADR-011–020 (technology) **accepted** ([register](DECISIONS.md)) |
-| Technology stack | **Selected 2026-11-09:** Python 3.12 + uv, Pydantic v2, strict typing (mypy), Typer CLI, LangGraph, OpenAI, SQLite + FTS5, LangSmith, Docker ([ADR-011–ADR-020](docs/architecture/tech-stack.md)). Open: exact model IDs, budget values |
-| Application code | None. Repository tooling (validator, 53 tests, Stop hook) rewritten 2026-11-09; offline checks only. |
-| Live integrations | None; [integration inventory](config/mcp.json) is disabled |
-| Latest documentation pass | Gap fixes: application, prompt, and testing design; ADR-011–020; literature 021–023 ([review log](docs/review-log.md)) |
-| Known gaps | OpenAI model IDs and budgets (owner); no LICENSE chosen; EMA guidance unverified; portfolio has no non-Tau comparator candidates (confirm intent) |
+| Phase | **Implementation — first slice built** (reviewer → portfolio → human decision). Awaiting a first live run with the owner’s OpenAI configuration. |
+| Active task | [First live run and evaluation](TASK.md) |
+| Decisions | All ADRs **accepted** 2026-11-09; ADR-012 superseded by ADR-021 (Python 3.13) ([register](DECISIONS.md)) |
+| Technology stack | Python 3.13 + uv, Pydantic v2, `mypy --strict`, Typer CLI, LangGraph, OpenAI, SQLite, LangSmith, Docker ([tech-stack](docs/architecture/tech-stack.md)) |
+| Application | `src/neuroquest`: CLI `review`/`decide`/`runs`/`show`/`validate`; deterministic scoring and gate guard; $0.10 per-run cap; 40 offline tests; Docker image builds |
+| Repository checks | Validator + 53 tests; Stop hook; CI runs both plus lint, types, offline tests, image build |
+| Not built yet | Researcher, planner, regulatory nodes; FTS5 search; `evidence`/`plan` commands; live evaluation results |
+| Live integrations | OpenAI and LangSmith in the app (keys from `.env`); research connectors (PubMed, Tavily, …) disabled |
+| Known gaps | OpenAI model IDs and prices must be set in `.env`; no LICENSE; EMA guidance unverified; portfolio is Tau-only (confirm) |
 
 ## Demonstration scenario (separate from project progress)
 **SYNTHETIC DEMONSTRATION:** 15 fictional candidates, 20 experiment records, 12 fictional campaign periods, plus 23 real publications summarized at abstract level.

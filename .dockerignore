@@ -1,0 +1,14 @@
+# Never send secrets, local state, or caches to the Docker build context.
+.env
+.env.*
+secrets/
+var/
+*.sqlite3
+.git/
+.venv/
+__pycache__/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.claude/settings.local.json
+CLAUDE.local.md
