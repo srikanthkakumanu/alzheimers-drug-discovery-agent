@@ -1,12 +1,11 @@
-# Active task — first live run and evaluation
+# Active task — evaluation report and second-slice scope
 
-Owner: project owner. The first slice is built and tested offline ([implementation plan](docs/delivery/implementation-plan.md)). Next: run it against the low-cost providers ([ADR-022](adr/ADR-022.md): Groq, Google Gemini, Mistral) within the $0.10 per-run cap and judge the packets.
+Owner: project owner. The first slice ran live on 2026-11-09 ([STATUS.md](STATUS.md)): run `run-20261109-190842-19f12d` stayed within budget, kept N blocked, cited only real record IDs, and the owner recorded A/G follow-up, N blocked. Providers and models: [ADR-022](adr/ADR-022.md).
 
 ## Steps
-1. In `.env`, copy the `NEUROQUEST_MODEL_*` lines from [.env.example](.env.example) (economical `groq:…`, capable `google:…`; escalation is unused in this slice) and confirm `GROQ_API_KEY` and `GEMINI_API_KEY` (or `GOOGLE_API_KEY`) are set.
-2. Run `uv run neuroquest review A G N`; read the packet; record decisions with `uv run neuroquest decide <run_id> -d A=… -d G=… -d N=blocked --reason "…"`.
-3. Run the live evaluation: `uv run pytest -m eval` ([testing strategy](docs/delivery/testing-strategy.md)).
-4. Report packet quality against EV-02–EV-13 ([evaluation plan](docs/delivery/evaluation-plan.md)).
+1. Score the closed run's packet against EV-02–EV-13 ([evaluation plan](docs/delivery/evaluation-plan.md)); note any check the live eval test does not yet automate.
+2. Decide whether to close or discard the earlier open run `run-20261109-190555-c07d1e` (pre-fix reviewer output).
+3. Choose the second-slice scope (decision 6 below) using what the evaluation shows.
 
 ## Owner decisions still open
 | # | Decision | Where it is framed |
@@ -19,4 +18,4 @@ Owner: project owner. The first slice is built and tested offline ([implementati
 | 6 | Scope of the second slice (researcher/planner/regulatory nodes, FTS5) | [implementation plan](docs/delivery/implementation-plan.md) |
 
 ## Done when
-A live review of A G N stays within budget, keeps N blocked, cites only real record IDs, and the owner records a decision. Update [STATUS.md](STATUS.md) afterwards.
+EV-02–EV-13 results are recorded with the run ID, and the second-slice scope is chosen. Update [STATUS.md](STATUS.md) afterwards.

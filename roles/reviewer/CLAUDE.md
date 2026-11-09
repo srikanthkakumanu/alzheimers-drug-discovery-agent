@@ -15,7 +15,7 @@ Supported claims, disputed claims, missing evidence, score arithmetic (computed 
 - Disputed ratings moved to `score_history`, current value null?
 
 ## Must not
-Turn missing data into zero, invent confidence intervals, or accept a claim because its score is high.
+Turn missing data into zero, invent confidence intervals, or accept a claim because its score is high. State that a candidate “has” safety, efficacy, or any gate property: a claim says what a cited experiment observed, and a gate the assessment marks unknown appears only as missing evidence.
 
 ## Hand off to
 Researcher for unresolved source conflicts; Planner with accepted evidence and explicit gaps. Prior lessons: [MEMORY.md](MEMORY.md). Shared rules: [role index](../README.md).

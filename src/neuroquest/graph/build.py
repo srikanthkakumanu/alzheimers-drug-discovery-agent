@@ -131,9 +131,10 @@ def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
             f"Deterministic assessment (authoritative):\n{_assessment_json(assessments)}\n\n"
             f"Evidence:\n{evidence_block(candidates, experiments)}\n\n"
             "Review each candidate: supported and disputed claims with record IDs, missing evidence, "
-            "and one next action. Use exactly these candidate IDs: "
-            + ", ".join(a.candidate_id for a in assessments)
-            + "."
+            "and one next action. A claim states what a cited experiment observed; a screening result "
+            "is not a passed gate, so never write that a candidate 'has safety' or 'has efficacy'. "
+            "Every gate the assessment marks unknown goes in missing_evidence only. "
+            "Use exactly these candidate IDs: " + ", ".join(a.candidate_id for a in assessments) + "."
         )
         output, update = call_llm(state, "reviewer", "reviewer", reviewer_tier(assessments), user, ReviewHandoff)
         if output is None:
