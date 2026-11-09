@@ -20,7 +20,7 @@ from neuroquest.errors import BudgetExceededError, LLMError
 from neuroquest.graph.state import RunState, assessments_of, review_of
 from neuroquest.llm.base import LLMClient, LLMRequest
 from neuroquest.llm.prompts import Role, evidence_block, system_prompt
-from neuroquest.models.handoff import PortfolioPacket, Recommendation, ReviewHandoff
+from neuroquest.models.handoff import CandidateReview, PortfolioPacket, Recommendation, ReviewHandoff
 from neuroquest.models.records import CandidateId
 from neuroquest.models.runs import HumanDecision, Usage
 from neuroquest.models.scoring import Assessment
@@ -76,6 +76,29 @@ def enforce_gates(packet: PortfolioPacket, assessments: list[Assessment]) -> tup
     if missing:
         notes.append("No model recommendation for: " + ", ".join(missing) + ".")
     return packet.model_copy(update={"recommendations": kept}), notes
+
+
+def _claim_key(statement: str) -> str:
+    return " ".join("".join(ch for ch in statement.lower() if ch.isalnum() or ch.isspace()).split())
+
+
+def resolve_contradictions(review: ReviewHandoff) -> tuple[ReviewHandoff, list[str]]:
+    """A claim listed as both supported and disputed stays only as disputed, visibly (EV-02, EV-03)."""
+    notes: list[str] = []
+    reviews: list[CandidateReview] = []
+    for r in review.reviews:
+        disputed = {_claim_key(c.statement) for c in r.disputed_claims}
+        kept = []
+        for claim in r.supported_claims:
+            if _claim_key(claim.statement) in disputed:
+                notes.append(
+                    f"{r.candidate_id}: claim {claim.statement!r} was listed as both supported and disputed; "
+                    "kept only as disputed."
+                )
+            else:
+                kept.append(claim)
+        reviews.append(r.model_copy(update={"supported_claims": kept}))
+    return review.model_copy(update={"reviews": reviews}), notes
 
 
 def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
@@ -134,6 +157,7 @@ def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
             "and one next action. A claim states what a cited experiment observed; a screening result "
             "is not a passed gate, so never write that a candidate 'has safety' or 'has efficacy'. "
             "Every gate the assessment marks unknown goes in missing_evidence only. "
+            "A claim is either supported or disputed, never both; do not restate ratings or scores as claims. "
             "Use exactly these candidate IDs: " + ", ".join(a.candidate_id for a in assessments) + "."
         )
         output, update = call_llm(state, "reviewer", "reviewer", reviewer_tier(assessments), user, ReviewHandoff)
@@ -145,7 +169,8 @@ def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
         notes = [*state.get("notes", [])]
         if stray:
             notes.append("Dropped reviewer output for unrequested IDs: " + ", ".join(stray) + ".")
-        clean = output.model_copy(update={"reviews": reviews})
+        clean, contradictions = resolve_contradictions(output.model_copy(update={"reviews": reviews}))
+        notes.extend(contradictions)
         return {**update, "review": clean.model_dump(mode="json"), "notes": notes}
 
     def portfolio(state: RunState) -> RunState:

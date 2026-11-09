@@ -3,7 +3,9 @@
 Owner: project owner. The first slice ran live on 2026-11-09 ([STATUS.md](STATUS.md)): run `run-20261109-190842-19f12d` stayed within budget, kept N blocked, cited only real record IDs, and the owner recorded A/G follow-up, N blocked. Providers and models: [ADR-022](adr/ADR-022.md).
 
 ## Steps
-1. Score the closed run's packet against EV-02–EV-13 ([evaluation plan](docs/delivery/evaluation-plan.md)); note any check the live eval test does not yet automate.
+1. ~~Score against EV-02–EV-13~~ — done 2026-11-10: [evaluation results](docs/delivery/evaluation-results.md).
+1a. Owner: set `NEUROQUEST_MODEL_ECONOMICAL=google:gemini-2.5-flash-lite` in `.env` (the Groq model is retired).
+1b. ~~Contradictory-claim check (EV-02/03)~~ — done. Remaining follow-ups: one discriminating A-vs-G study (EV-10), live hostile-input case (EV-11).
 2. Decide whether to close or discard the earlier open run `run-20261109-190555-c07d1e` (pre-fix reviewer output).
 3. Choose the second-slice scope (decision 6 below) using what the evaluation shows.
 
@@ -18,4 +20,4 @@ Owner: project owner. The first slice ran live on 2026-11-09 ([STATUS.md](STATUS
 | 6 | Scope of the second slice (researcher/planner/regulatory nodes, FTS5) | [implementation plan](docs/delivery/implementation-plan.md) |
 
 ## Done when
-EV-02–EV-13 results are recorded with the run ID, and the second-slice scope is chosen. Update [STATUS.md](STATUS.md) afterwards.
+Results are recorded (done), the EV-02/03 contradiction check passes on a re-run, and the second-slice scope is chosen. Update [STATUS.md](STATUS.md) afterwards.

@@ -21,6 +21,7 @@ Design reference layer. Read the one document your question needs. Phase: [STATU
 | Delivery | [review-plan](delivery/review-plan.md) | Owner review sequence |
 | | [implementation-plan](delivery/implementation-plan.md) | Phases, first slice, deferred tooling work |
 | | [evaluation-plan](delivery/evaluation-plan.md) | Scenarios EV-01–13, metrics, thresholds |
+| | [evaluation-results](delivery/evaluation-results.md) | First live scoring of EV-01–13 and provider findings |
 | | [testing-strategy](delivery/testing-strategy.md) | Offline tests, fake LLM, recorded replies, live evaluation |
 | Context engineering | [context-guide](context-guide.md) | Layers, budgets, retrieval, model tiering, caching |
 | | [claude-code](claude-code.md) | Claude Code surfaces in this repo and how to verify them |

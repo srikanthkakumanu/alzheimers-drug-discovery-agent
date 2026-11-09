@@ -20,6 +20,11 @@ def cost_usd(price: ModelPrice, usage: Usage) -> float:
     ) / TOKENS_PER_PRICE_UNIT
 
 
+def usd(amount: float) -> str:
+    """Cents for normal budgets, four decimals below a cent so small caps never read as $0.00."""
+    return f"${amount:.2f}" if amount >= 0.01 else f"${amount:.4f}"
+
+
 class Budget:
     def __init__(self, limit_usd: float, price_for: Callable[[str], ModelPrice]) -> None:
         self.limit_usd = limit_usd
@@ -42,7 +47,7 @@ class Budget:
         if self.spent_usd + needed > self.limit_usd:
             raise BudgetExceededError(
                 f"Next call to {model} could cost up to ${needed:.4f}; "
-                f"${self.remaining_usd:.4f} of ${self.limit_usd:.2f} remains."
+                f"${self.remaining_usd:.4f} of {usd(self.limit_usd)} remains."
             )
 
     def charge(self, model: str, usage: Usage) -> float:

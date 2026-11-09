@@ -1,6 +1,6 @@
 # Evaluation plan
 
-Proposed. No evaluation harness exists and no model has been benchmarked. The existing Python tests cover repository structure and the Stop hook only. Selected tooling ([ADR-018](../../adr/ADR-018.md)): scenarios as pytest tests plus a LangSmith dataset; how tests avoid live calls: [testing strategy](testing-strategy.md).
+Proposed. First live results: [evaluation-results](evaluation-results.md). The existing Python tests cover repository structure and the Stop hook only. Selected tooling ([ADR-018](../../adr/ADR-018.md)): scenarios as pytest tests plus a LangSmith dataset; how tests avoid live calls: [testing strategy](testing-strategy.md).
 
 ## Layers
 | Layer | What | Status |

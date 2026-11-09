@@ -93,3 +93,34 @@ def test_missing_price_fails_before_run_is_recorded(service_with, fake_factory, 
     with pytest.raises(ConfigurationError, match="NEUROQUEST_MODEL_PRICES"):
         service.review(["A"])
     assert service.runs() == []
+
+
+def test_claim_both_supported_and_disputed_stays_disputed():
+    from neuroquest.graph.build import resolve_contradictions
+    from neuroquest.models.handoff import CandidateReview, Claim, ReviewHandoff
+
+    efficacy = Claim(
+        statement="Reduced Tau seeding in the cellular assay.", provenance="synthetic", record_ids=["EXP-004"]
+    )
+    same = Claim(statement="reduced tau seeding in the cellular assay", provenance="synthetic", record_ids=["EXP-006"])
+    other = Claim(statement="Solubility acceptable", provenance="synthetic", record_ids=["EXP-013"])
+    review = ReviewHandoff(
+        question="q",
+        reviews=[
+            CandidateReview(
+                candidate_id="candidate-C",
+                supported_claims=[efficacy, other],
+                disputed_claims=[same],
+                missing_evidence=[],
+                next_action="n",
+            )
+        ],
+        uncertainty=[],
+        next_action="n",
+    )
+    clean, notes = resolve_contradictions(review)
+    assert [c.statement for c in clean.reviews[0].supported_claims] == ["Solubility acceptable"]
+    assert clean.reviews[0].disputed_claims == [same]
+    assert len(notes) == 1
+    assert "candidate-C" in notes[0]
+    assert "kept only as disputed" in notes[0]

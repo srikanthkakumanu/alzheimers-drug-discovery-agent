@@ -93,6 +93,9 @@ class CompatClient:
             raise LLMError(f"{name} rejected the API key or access; check {PROVIDERS[provider].key_env[0]}.") from exc
         except self._openai.BadRequestError as exc:
             raise LLMError(f"{name} rejected the request for {model}: {exc.message}") from exc
+        except self._openai.APIStatusError as exc:
+            # e.g. 404 retired model, 413 free-tier tokens-per-minute limit; the message names the cause
+            raise LLMError(f"{name} returned HTTP {exc.status_code} for {model}: {exc.message[:200]}") from exc
         except self._openai.APIError as exc:
             raise LLMError(f"{name} call failed after retries: {type(exc).__name__}") from exc
 

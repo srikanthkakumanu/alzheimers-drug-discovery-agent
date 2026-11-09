@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Sequence
 
+from neuroquest.budget import usd
 from neuroquest.models.handoff import PortfolioPacket, ReviewHandoff
 from neuroquest.models.runs import HumanDecision
 from neuroquest.models.scoring import Assessment
@@ -36,7 +37,7 @@ def render_packet(
         LABEL,
         "",
         f"**Question:** {question}",
-        f"**Status:** {status} · **Cost:** ${cost_usd:.4f} of ${budget_usd:.2f}",
+        f"**Status:** {status} · **Cost:** ${cost_usd:.4f} of {usd(budget_usd)}",
         "",
         "## Deterministic assessment (authoritative for scores and gates)",
         "",
