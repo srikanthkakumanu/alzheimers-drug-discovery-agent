@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from typing import Any
+
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from neuroquest.models.records import (
@@ -64,7 +66,16 @@ class Assessment(BaseModel):
     hard_blocks: list[str]
     disputed_history: list[float]
     eligible_for_promotion: bool
-    blockers: list[str]
+    promotion_blockers: list[str]  # reasons promotion is not allowed; distinct from a hard block
+
+    @model_validator(mode="before")
+    @classmethod
+    def _accept_old_name(cls, data: Any) -> Any:
+        """Checkpoints from before 2026-11-10 store this field as "blockers"."""
+        if isinstance(data, dict) and "blockers" in data and "promotion_blockers" not in data:
+            data = {**data, "promotion_blockers": data["blockers"]}
+            del data["blockers"]
+        return data
 
     @property
     def is_blocked(self) -> bool:

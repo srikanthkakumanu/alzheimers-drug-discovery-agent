@@ -75,10 +75,19 @@ def test_no_candidate_is_eligible_for_promotion(repo: Repository):
 def test_unblocked_candidate_never_offers_promotion(repo: Repository):
     a = assess(repo.candidates["candidate-A"], repo.scoring)
     assert "promoted" not in allowed_dispositions(a)
-    assert any(b.startswith("unknown gate") for b in a.blockers)
+    assert any(b.startswith("unknown gate") for b in a.promotion_blockers)
 
 
 def test_evidence_prioritizes_replication_challenger(repo: Repository):
     evidence = repo.evidence_for(["candidate-N"], limit=3)  # type: ignore[list-item]
     assert evidence[0].id == "EXP-014"
     assert len(evidence) <= 3
+
+
+def test_assessment_accepts_pre_rename_checkpoint(repo: Repository):
+    from neuroquest.models.scoring import Assessment
+    from neuroquest.scoring import assess
+
+    data = assess(repo.candidate("candidate-G"), repo.scoring).model_dump(mode="json")
+    data["blockers"] = data.pop("promotion_blockers")
+    assert Assessment.model_validate(data).promotion_blockers == data["blockers"]

@@ -124,3 +124,17 @@ def test_claim_both_supported_and_disputed_stays_disputed():
     assert len(notes) == 1
     assert "candidate-C" in notes[0]
     assert "kept only as disputed" in notes[0]
+
+
+def test_packet_shows_one_proposed_study_with_decision_rule(service_with, fake_factory):
+    outcome = service_with(fake_factory()).review(["A", "G"])
+    packet = outcome.packet_markdown
+    assert "## Most informative next study (proposal, no results)" in packet
+    assert "- **Candidates:** candidate-A, candidate-G" in packet
+    assert "- **Decision rule:** Favor the candidate" in packet
+
+
+def test_proposed_study_drops_unrequested_candidates(service_with, fake_factory):
+    outcome = service_with(fake_factory(study_extra=("candidate-Z",))).review(["A", "G"])
+    assert "- **Candidates:** candidate-A, candidate-G" in outcome.packet_markdown
+    assert "Dropped unrequested candidates from the proposed study: candidate-Z." in outcome.packet_markdown

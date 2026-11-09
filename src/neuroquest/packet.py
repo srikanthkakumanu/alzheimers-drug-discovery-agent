@@ -79,6 +79,17 @@ def render_packet(
             f"| {r.candidate_id} | {r.recommended_disposition} | {r.rationale} | {r.next_step} |"
             for r in portfolio.recommendations
         ]
+        study = portfolio.next_study
+        lines += [
+            "",
+            "## Most informative next study (proposal, no results)",
+            "",
+            f"- **Candidates:** {', '.join(study.candidate_ids) or 'none'}",
+            f"- **Question:** {study.question}",
+            f"- **Design:** {study.design}",
+            f"- **Decision rule:** {study.decision_rule}",
+            f"- **Leaves open:** {'; '.join(study.remaining_gaps) or 'none stated'}",
+        ]
         lines += ["", f"**Human decision required:** {portfolio.human_decision_required}"]
     if notes:
         lines += ["", "## Notes", "", *[f"- {n}" for n in notes]]

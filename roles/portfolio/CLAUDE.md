@@ -6,7 +6,7 @@
 Reviewer findings, the planner proposal, regulatory gaps, and the [scoring contract](../../config/scoring-model.json). Open raw records only for a decision-critical ambiguity.
 
 ## Output
-A decision packet: candidate comparison · hard blocks and gate states · provisional scores (unknown where unknown) · information value of each proposed next step · recommended disposition · the human decision still required and who owns it.
+A decision packet: candidate comparison · hard blocks and gate states · provisional scores (unknown where unknown) · information value of each proposed next step · one most informative next study (when two or more candidates are unblocked, one that discriminates between them, with a decision rule) · recommended disposition · the human decision still required and who owns it.
 
 ## Must not
 - Let a weighted score bypass a gate or rank a candidate whose total is unknown.

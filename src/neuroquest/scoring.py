@@ -20,19 +20,19 @@ def assess(candidate: Candidate, scoring: ScoringModel) -> Assessment:
     computed = weighted_score(candidate.scores, scoring.weights)
     failed = candidate.gates.with_state("fail")
     unknown = candidate.gates.with_state("unknown")
-    blockers: list[str] = []
+    promotion_blockers: list[str] = []
     if candidate.hard_blocks:
-        blockers.append("hard block: " + ", ".join(candidate.hard_blocks))
+        promotion_blockers.append("hard block: " + ", ".join(candidate.hard_blocks))
     if failed:
-        blockers.append("failed gate: " + ", ".join(failed))
+        promotion_blockers.append("failed gate: " + ", ".join(failed))
     if unknown:
-        blockers.append("unknown gate: " + ", ".join(unknown))
+        promotion_blockers.append("unknown gate: " + ", ".join(unknown))
     if computed is None:
-        blockers.append("score unknown: missing " + ", ".join(candidate.scores.missing))
+        promotion_blockers.append("score unknown: missing " + ", ".join(candidate.scores.missing))
     elif computed < scoring.promotion.minimum_total:
-        blockers.append(f"score {computed} below {scoring.promotion.minimum_total}")
+        promotion_blockers.append(f"score {computed} below {scoring.promotion.minimum_total}")
     if not candidate.human_approval:
-        blockers.append("no human approval")
+        promotion_blockers.append("no human approval")
     eligible = (
         computed is not None
         and computed >= scoring.promotion.minimum_total
@@ -54,7 +54,7 @@ def assess(candidate: Candidate, scoring: ScoringModel) -> Assessment:
         hard_blocks=list(candidate.hard_blocks),
         disputed_history=[h.weighted_score for h in candidate.score_history if h.status == "disputed"],
         eligible_for_promotion=eligible,
-        blockers=blockers,
+        promotion_blockers=promotion_blockers,
     )
 
 

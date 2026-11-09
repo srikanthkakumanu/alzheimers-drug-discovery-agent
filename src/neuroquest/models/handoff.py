@@ -58,9 +58,30 @@ class Recommendation(StrictModel):
     next_step: str
 
 
+class NextStudy(StrictModel):
+    """One proposed study chosen for information value (EV-10). A proposal, never a result."""
+
+    candidate_ids: list[str] = Field(
+        description="Candidates the study measures; when two or more are unblocked, the ones it discriminates between."
+    )
+    question: str = Field(description="The open uncertainty or gate the study resolves.")
+    design: str = Field(
+        description="One study on one gate: what is measured, in which system, with which controls. "
+        "Not a program of several studies. No predicted results."
+    )
+    decision_rule: str = Field(
+        description="Which measured outcome would favor which candidate or change a disposition, "
+        "in the form 'If <candidate> shows <result> and <other> does not, prioritize <candidate>'."
+    )
+    remaining_gaps: list[str] = Field(description="Gates this study does not address (never the one it targets).")
+
+
 class PortfolioPacket(StrictModel):
     """Portfolio output: the recommendation a human decides on."""
 
     summary: str
     recommendations: list[Recommendation]
+    next_study: NextStudy = Field(
+        description="Exactly one most informative next study across the requested candidates (a proposal)."
+    )
     human_decision_required: str

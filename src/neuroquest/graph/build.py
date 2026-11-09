@@ -68,14 +68,19 @@ def enforce_gates(packet: PortfolioPacket, assessments: list[Assessment]) -> tup
         if rec.recommended_disposition not in allowed:
             notes.append(
                 f"{rec.candidate_id}: model recommended {rec.recommended_disposition!r}; overridden "
-                f"to 'blocked' by gate rule ({'; '.join(assessment.blockers[:2])})."
+                f"to 'blocked' by gate rule ({'; '.join(assessment.promotion_blockers[:2])})."
             )
             rec = rec.model_copy(update={"recommended_disposition": "blocked"})
         kept.append(rec)
     missing = sorted(set(by_id) - {CandidateId(r.candidate_id) for r in kept})
     if missing:
         notes.append("No model recommendation for: " + ", ".join(missing) + ".")
-    return packet.model_copy(update={"recommendations": kept}), notes
+    study = packet.next_study
+    stray = [c for c in study.candidate_ids if CandidateId(c) not in by_id]
+    if stray:
+        notes.append("Dropped unrequested candidates from the proposed study: " + ", ".join(stray) + ".")
+        study = study.model_copy(update={"candidate_ids": [c for c in study.candidate_ids if c not in stray]})
+    return packet.model_copy(update={"recommendations": kept, "next_study": study}), notes
 
 
 def _claim_key(statement: str) -> str:
@@ -182,8 +187,13 @@ def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
             f"Deterministic assessment (authoritative):\n{_assessment_json(assessments)}\n\n"
             f"Reviewer handoff:\n{review.model_dump_json(indent=1) if review else 'none'}\n\n"
             f"Allowed recommendations per candidate: {json.dumps(allowed)}\n\n"
-            "Recommend one disposition per candidate with rationale, information value, and next step, "
-            "then state the human decision still required. Use exactly these candidate IDs: "
+            "Recommend one disposition per candidate with rationale, information value, and next step. "
+            "Then propose exactly one most informative next study (next_study): when two or more candidates "
+            "are unblocked, a single study whose outcome discriminates between them, with a decision rule "
+            "naming which result favors which candidate. It targets one gate, not a program of studies; "
+            "remaining_gaps lists only the gates it does not address. "
+            "It is a proposal: never predict or invent results. "
+            "Finally state the human decision still required. Use exactly these candidate IDs: "
             + ", ".join(a.candidate_id for a in assessments)
             + "."
         )

@@ -11,7 +11,14 @@ import pytest
 
 from neuroquest.llm.base import LLMRequest
 from neuroquest.llm.fake import FakeLLM
-from neuroquest.models.handoff import CandidateReview, Claim, PortfolioPacket, Recommendation, ReviewHandoff
+from neuroquest.models.handoff import (
+    CandidateReview,
+    Claim,
+    NextStudy,
+    PortfolioPacket,
+    Recommendation,
+    ReviewHandoff,
+)
 from neuroquest.repository import Repository
 from neuroquest.service import ReviewService
 from neuroquest.settings import ModelPrice, Settings
@@ -45,7 +52,7 @@ def settings(tmp_path: Path) -> Settings:
     return Settings(_env_file=None, repo_root=REPO_ROOT, state_dir=tmp_path / "var", model_prices=FAKE_PRICES)
 
 
-def make_fake(recommend: dict[str, str] | None = None) -> FakeLLM:
+def make_fake(recommend: dict[str, str] | None = None, study_extra: tuple[str, ...] = ()) -> FakeLLM:
     """Fake reviewer/portfolio that echoes the requested candidates. `recommend` overrides dispositions."""
     recommend = recommend or {}
 
@@ -85,6 +92,13 @@ def make_fake(recommend: dict[str, str] | None = None) -> FakeLLM:
                 )
                 for c in ids(request)
             ],
+            next_study=NextStudy(
+                candidate_ids=[*ids(request), *study_extra],
+                question="Which candidate reaches the brain?",
+                design="Free brain exposure for each candidate.",
+                decision_rule="Favor the candidate with exposure above its cellular IC50.",
+                remaining_gaps=["identity"],
+            ),
             human_decision_required="Choose dispositions.",
         )
 
