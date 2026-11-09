@@ -1,13 +1,41 @@
-# Local credentials and overrides
+# --- Secrets and local credentials (never commit) ---
 .env
 .env.*
 !.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# --- Claude Code personal overrides (project files in .claude/ stay tracked) ---
 CLAUDE.local.md
 .claude/settings.local.json
-# Generated/cache data
+
+# --- Python environments, caches, and build output ---
 .venv/
+venv/
 __pycache__/
 *.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+build/
+dist/
+.ipynb_checkpoints/
+
+# --- Project-local caches and logs ---
 .cache/
 .validation-cache/
+*.log
+
+# --- OS and editor files ---
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*~
