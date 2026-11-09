@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "kind": "descriptive-workflow",
+  "executable": false,
+  "data_mode": "synthetic-demonstration",
+  "scoring_model": "config/scoring-model.json",
+  "steps": [
+    {
+      "id": "evidence",
+      "owner": "researcher",
+      "output": "linked candidate evidence and explicit unknowns"
+    },
+    {
+      "id": "score",
+      "owner": "reviewer",
+      "output": "complete ratings or null total; hard blocks visible"
+    },
+    {
+      "id": "review",
+      "owner": "reviewer",
+      "output": "independent check of identity, artifacts, and replication"
+    },
+    {
+      "id": "plan",
+      "owner": "planner",
+      "output": "smallest study concept resolving a decision-critical gap"
+    },
+    {
+      "id": "regulatory",
+      "owner": "regulatory",
+      "output": "dated nonclinical/CMC gap assessment"
+    },
+    {
+      "id": "portfolio",
+      "owner": "portfolio",
+      "output": "recommendation with required gates and tradeoffs"
+    },
+    {
+      "id": "approve",
+      "owner": "human",
+      "output": "explicit recorded decision; absent approval means hold"
+    }
+  ],
+  "decision": {
+    "source": "config/scoring-model.json#/promotion",
+    "on_missing_evidence": "hold",
+    "on_failed_gate": "blocked",
+    "on_score_below_threshold": "hold",
+    "on_no_human_approval": "hold",
+    "on_all_conditions_met": "eligible for human-recorded promotion; never automatic"
+  },
+  "records": "Update candidate gates first, then STATUS.md and a linked decision record; preserve previous evidence."
+}

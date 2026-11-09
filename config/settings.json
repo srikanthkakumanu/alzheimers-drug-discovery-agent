@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "agent": "NeuroQuest",
+  "repository_type": "research-context",
+  "data_mode": "synthetic-demonstration",
+  "as_of": "2026-11-09",
+  "execution": {
+    "agent_runtime": false,
+    "native_claude_settings": true,
+    "automatic_promotion": false,
+    "live_integrations": false,
+    "native_settings_path": ".claude/settings.json"
+  },
+  "context": {
+    "estimate": "ceil(UTF-8 bytes / 4); heuristic, not a tokenizer",
+    "root_instruction_max_bytes": 3200,
+    "role_instruction_max_bytes": 2400,
+    "index_max_bytes": 6000,
+    "leaf_max_bytes": 8000,
+    "initial_bundle_estimated_tokens": 2500,
+    "working_bundle_estimated_tokens": 6000,
+    "retrieval_batch_max_records": 3,
+    "handoff_estimated_tokens": 400,
+    "bulk_imports": false
+  },
+  "llm_policy": {
+    "enforcement": "manual policy; no API client",
+    "default_tier": "economical",
+    "escalate_for": [
+      "unresolved evidence conflict",
+      "high-impact scientific or regulatory synthesis"
+    ],
+    "bounded_output": true,
+    "reuse_verified_summaries": true,
+    "provider_caching": "optional only if supported; never assumed",
+    "monthly_budget_usd": null
+  },
+  "memory": {
+    "mode": "manual-linked-files",
+    "durable_index": "MEMORY.md",
+    "archive": "memory/README.md",
+    "preserve_negative_findings": true
+  },
+  "validation": {
+    "command": "python3 scripts/validate_repository.py",
+    "test_command": "python3 -m unittest discover -s tests -v"
+  }
+}

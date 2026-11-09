@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "purpose": "Illustrative triage, not a validated predictor or regulatory standard; manufacturing is a preliminary developability proxy",
+  "weights": {
+    "efficacy": 40,
+    "safety": 30,
+    "bbb": 20,
+    "manufacturing": 10
+  },
+  "scale": {
+    "min": 0,
+    "max": 5,
+    "direction": "higher is more favorable for every dimension"
+  },
+  "legacy_mapping": {
+    "toxicity": "safety; inverse hazard direction, not raw toxicity"
+  },
+  "formula": "sum(weight[dimension] * rating[dimension] / 5); 0–100, round to 1 decimal",
+  "missing_policy": "null rating => null total and provisional score; independent hard blocks may still require blocked disposition; never impute or renormalize",
+  "rubric": {
+    "efficacy": {
+      "0": "artifact or no credible activity",
+      "1": "weak primary signal",
+      "2": "primary activity, limited confirmation",
+      "3": "orthogonal/cellular support with material limitations",
+      "4": "orthogonal and cellular support with stronger activity; replication assessed separately",
+      "5": "replicated disease-relevant efficacy with exposure/engagement evidence"
+    },
+    "safety": {
+      "0": "material safety signal",
+      "1": "multiple concerning signals",
+      "2": "narrow preliminary margin",
+      "3": "limited preliminary screens without decisive hazard",
+      "4": "broader preliminary support; long-term safety unknown",
+      "5": "comprehensive qualified evidence for intended stage"
+    },
+    "bbb": {
+      "0": "poor permeability or prohibitive efflux",
+      "1": "low predicted access",
+      "2": "mixed permeability/efflux",
+      "3": "encouraging in vitro transport",
+      "4": "stronger in vitro transport; in vivo unbound exposure missing",
+      "5": "measured adequate unbound CNS exposure linked to activity"
+    },
+    "manufacturing": {
+      "0": "major stability or solubility barrier",
+      "1": "significant route/solid-form concern",
+      "2": "material process complexity",
+      "3": "plausible research-scale handling",
+      "4": "favorable preliminary developability",
+      "5": "qualified reproducible process for intended stage"
+    }
+  },
+  "promotion": {
+    "minimum_total": 70,
+    "required_gates": [
+      "identity",
+      "orthogonal_activity",
+      "replication",
+      "cns_exposure_engagement",
+      "safety",
+      "manufacturing"
+    ],
+    "allowed_gate_states": [
+      "pass",
+      "fail",
+      "unknown"
+    ],
+    "all_required_gates_must_pass": true,
+    "human_approval_required": true,
+    "hard_blocks_override_score": true,
+    "threshold_status": "demonstration policy, not externally validated"
+  }
+}

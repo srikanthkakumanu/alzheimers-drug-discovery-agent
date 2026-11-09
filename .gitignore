@@ -1,0 +1,13 @@
+# Local credentials and overrides
+.env
+.env.*
+!.env.example
+CLAUDE.local.md
+.claude/settings.local.json
+# Generated/cache data
+.venv/
+__pycache__/
+*.py[cod]
+.cache/
+.validation-cache/
+.DS_Store

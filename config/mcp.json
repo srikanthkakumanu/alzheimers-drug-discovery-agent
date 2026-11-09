@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "kind": "integration-inventory",
+  "native_mcp_configuration": false,
+  "servers": [
+    {
+      "id": "pubmed",
+      "enabled": false,
+      "purpose": "retrieve bibliographic metadata and abstracts",
+      "transport": null,
+      "endpoint_env": null,
+      "required_secrets": [],
+      "data_policy": "public sources; cache metadata with source date"
+    },
+    {
+      "id": "vectorstore",
+      "enabled": false,
+      "purpose": "optional bounded search over reviewed evidence",
+      "transport": null,
+      "endpoint_env": "VECTORSTORE_URL",
+      "required_secrets": [
+        "VECTORSTORE_API_KEY"
+      ],
+      "data_policy": "index only approved evidence; no secrets or private source content without authorization"
+    },
+    {
+      "id": "labdata",
+      "enabled": false,
+      "purpose": "future read-only access to qualified experimental records",
+      "transport": null,
+      "endpoint_env": "LABDATA_URL",
+      "required_secrets": [
+        "LABDATA_API_KEY"
+      ],
+      "data_policy": "synthetic records only in this demonstration; no patient data"
+    }
+  ],
+  "activation": "Choose and verify a real server implementation and native configuration before use; this inventory launches nothing."
+}
