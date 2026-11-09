@@ -2,6 +2,11 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from neuroquest.models.runs import Usage
+
 
 class NeuroQuestError(Exception):
     """Base class for expected, user-reportable failures."""
@@ -24,7 +29,14 @@ class BudgetExceededError(NeuroQuestError):
 
 
 class LLMError(NeuroQuestError):
-    """A model call failed in a way that retries cannot fix."""
+    """A model call failed in a way that retries cannot fix.
+
+    `usage` holds tokens already consumed by failed attempts, so the budget still charges them.
+    """
+
+    def __init__(self, message: str, usage: Usage | None = None) -> None:
+        super().__init__(message)
+        self.usage = usage
 
 
 class DecisionError(NeuroQuestError):

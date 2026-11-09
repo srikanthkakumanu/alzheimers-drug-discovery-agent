@@ -62,10 +62,19 @@ class CompatClient:
         total = Usage()
         error = "The reply was empty."
         for attempt in range(REPAIR_ATTEMPTS + 1):
-            response = self._call(provider, model, system, user, request.max_output_tokens)
+            try:
+                response = self._call(provider, model, system, user, request.max_output_tokens)
+            except LLMError as exc:
+                raise LLMError(str(exc), usage=total) from exc
             total = total + self._usage(response)
-            text = response.choices[0].message.content if response.choices else None
-            if text:
+            choice = response.choices[0] if response.choices else None
+            text = choice.message.content if choice else None
+            if choice is not None and choice.finish_reason == "length":
+                error = (
+                    f"The reply was cut off at {request.max_output_tokens} output tokens. "
+                    "Be more concise: shorter statements, no repetition."
+                )
+            elif text:
                 try:
                     output = output_model.model_validate_json(_strip_fences(text))
                 except ValidationError as exc:
@@ -77,7 +86,10 @@ class CompatClient:
                     f"{request.user}\n\nYour previous reply did not match the required schema. "
                     f"{error}\nReturn only a valid JSON object."
                 )
-        raise LLMError(f"{model_id} did not return a valid {output_model.__name__} after repair.")
+        raise LLMError(
+            f"{model_id} did not return a valid {output_model.__name__} after repair. Last problem: {error[:160]}",
+            usage=total,
+        )
 
     def _call(self, provider: str, model: str, system: str, user: str, max_tokens: int) -> Any:
         name = PROVIDERS[provider].label

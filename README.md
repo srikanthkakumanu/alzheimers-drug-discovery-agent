@@ -18,7 +18,7 @@ tests/app/      offline application tests (pytest)   · pyproject.toml, uv.lock,
 docs/           product/, architecture/, delivery/, context guide, glossary
 runbooks/  workflows/  config/   procedures and descriptive contracts
 .claude/        Claude Code skills, commands, Stop hook
-scripts/  tests/  offline repository validator and its tests (stdlib)
+scripts/  tests/  repository validator and its tests (stdlib); start.sh / stop.sh (Docker)
 ```
 
 ## Reviewing the design
@@ -46,7 +46,7 @@ uv run neuroquest decide <run_id> -d A=follow-up -d G=hold -d N=blocked --reason
 uv run neuroquest runs                              # history; `show <run_id>` reprints a packet
 uv run pytest                                       # offline tests (no network, no .env)
 ```
-Docker: `docker build -t neuroquest . && docker run --rm -it --env-file .env -v "$PWD":/repo:ro -v neuroquest-var:/var/lib/neuroquest neuroquest review A G N`. Each run is capped at $0.10 (`--budget-usd` to override); a run that would exceed it stops with a partial packet. Design: [application design](docs/architecture/application-design.md).
+Docker: `scripts/start.sh` builds the image and starts a container, then `docker exec neuroquest neuroquest review A G N`; `scripts/stop.sh` removes the container and keeps run history in the `neuroquest-var` volume (`--purge` deletes it). The container reads `.env` from the read-only repo mount; `docker --env-file` would keep the quotes around `NEUROQUEST_MODEL_PRICES` and break it. Each run is capped at $0.10 (`--budget-usd` to override); a run that would exceed it stops with a partial packet. Design: [application design](docs/architecture/application-design.md).
 
 ## Local checks
 Repository checks: Python 3.10+, standard library only; no credentials or network needed.

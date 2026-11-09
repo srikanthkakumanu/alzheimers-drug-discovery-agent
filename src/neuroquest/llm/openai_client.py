@@ -66,7 +66,7 @@ class OpenAIClient:
                     f"{request.user}\n\nYour previous reply did not match the required schema. "
                     f"{detail}\nReturn only a valid object."
                 )
-        raise LLMError(f"{model} did not return a valid {output_model.__name__} after repair.")
+        raise LLMError(f"{model} did not return a valid {output_model.__name__} after repair.", usage=total)
 
     def _call(self, model: str, request: LLMRequest, user: str, output_model: type[BaseModel]) -> Any:
         try:

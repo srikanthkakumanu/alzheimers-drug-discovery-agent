@@ -5,7 +5,7 @@ Owner: project owner. The first slice ran live on 2026-11-09 ([STATUS.md](STATUS
 ## Steps
 1. ~~Score against EV-02–EV-13~~ — done 2026-11-10: [evaluation results](docs/delivery/evaluation-results.md).
 1a. Owner: set `NEUROQUEST_MODEL_ECONOMICAL=google:gemini-2.5-flash-lite` in `.env` (the Groq model is retired).
-1b. ~~Contradictory-claim check (EV-02/03)~~ — done. ~~One discriminating A-vs-G study (EV-10)~~ — done. Remaining follow-up: live hostile-input case (EV-11).
+1b. ~~Contradictory-claim check (EV-02/03)~~ — done. ~~One discriminating A-vs-G study (EV-10)~~ and ~~live hostile-input case (EV-11)~~ — done. All runnable first-slice scenarios pass; EV-07–09 wait for the second slice.
 2. Decide whether to close or discard the earlier open run `run-20261109-190555-c07d1e` (pre-fix reviewer output).
 3. Choose the second-slice scope (decision 6 below) using what the evaluation shows.
 

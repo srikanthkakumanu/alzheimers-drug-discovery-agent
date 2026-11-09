@@ -51,8 +51,15 @@ def system_prompt(repo_root: Path, role: Role, output_model: type[BaseModel]) ->
     return ComposedPrompt(text="\n\n".join(parts), version=f"{role}-v{TEMPLATE_VERSION}-{digest}")
 
 
+def _neutralize(body: str) -> str:
+    """Record text cannot open or close an evidence block, so it cannot escape the data wrapper (EV-11)."""
+    return re.sub(r"<\s*(/?)\s*evidence", r"&lt;\1evidence", body, flags=re.IGNORECASE)
+
+
 def evidence_block(candidates: list[Candidate], experiments: list[Experiment]) -> str:
     """Untrusted record text wrapped in explicit delimiters."""
-    blocks = [f'<evidence id="{c.id}" provenance="synthetic">\n{c.body}\n</evidence>' for c in candidates]
-    blocks += [f'<evidence id="{e.id}" provenance="synthetic">\n{e.body}\n</evidence>' for e in experiments]
+    blocks = [f'<evidence id="{c.id}" provenance="synthetic">\n{_neutralize(c.body)}\n</evidence>' for c in candidates]
+    blocks += [
+        f'<evidence id="{e.id}" provenance="synthetic">\n{_neutralize(e.body)}\n</evidence>' for e in experiments
+    ]
     return "\n\n".join(blocks)

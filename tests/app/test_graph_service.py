@@ -138,3 +138,46 @@ def test_proposed_study_drops_unrequested_candidates(service_with, fake_factory)
     outcome = service_with(fake_factory(study_extra=("candidate-Z",))).review(["A", "G"])
     assert "- **Candidates:** candidate-A, candidate-G" in outcome.packet_markdown
     assert "Dropped unrequested candidates from the proposed study: candidate-Z." in outcome.packet_markdown
+
+
+def test_citations_outside_shown_evidence_are_removed():
+    from neuroquest.graph.build import verify_citations
+    from neuroquest.models.handoff import CandidateReview, Claim, ReviewHandoff
+
+    mixed = Claim(statement="Reduced inclusions", provenance="synthetic", record_ids=["EXP-008", "EXP-999"])
+    invented = Claim(statement="Approved for trials", provenance="synthetic", record_ids=["EXP-999"])
+    review = ReviewHandoff(
+        question="q",
+        reviews=[
+            CandidateReview(
+                candidate_id="candidate-A",
+                supported_claims=[mixed, invented],
+                disputed_claims=[],
+                missing_evidence=[],
+                next_action="n",
+            )
+        ],
+        uncertainty=[],
+        next_action="n",
+    )
+    clean, notes = verify_citations(review, {"candidate-A", "EXP-008"})
+    assert [c.record_ids for c in clean.reviews[0].supported_claims] == [["EXP-008"]]
+    assert len(notes) == 2
+    assert "EXP-999" in notes[0]
+    assert "dropped claim 'Approved for trials'" in notes[1]
+
+
+def test_failed_model_call_is_still_charged(service_with):
+    from neuroquest.errors import LLMError
+    from neuroquest.models.runs import Usage
+
+    class Failing:
+        def model_for(self, tier):
+            return f"fake-{tier}"
+
+        def complete(self, request, output_model):
+            raise LLMError("no valid reply", usage=Usage(input_tokens=1000, output_tokens=500))
+
+    outcome = service_with(Failing()).review(["A", "G"])
+    assert outcome.status == "partial"
+    assert outcome.cost_usd > 0

@@ -20,7 +20,7 @@ from neuroquest.errors import BudgetExceededError, LLMError
 from neuroquest.graph.state import RunState, assessments_of, review_of
 from neuroquest.llm.base import LLMClient, LLMRequest
 from neuroquest.llm.prompts import Role, evidence_block, system_prompt
-from neuroquest.models.handoff import CandidateReview, PortfolioPacket, Recommendation, ReviewHandoff
+from neuroquest.models.handoff import CandidateReview, Claim, PortfolioPacket, Recommendation, ReviewHandoff
 from neuroquest.models.records import CandidateId
 from neuroquest.models.runs import HumanDecision, Usage
 from neuroquest.models.scoring import Assessment
@@ -106,6 +106,40 @@ def resolve_contradictions(review: ReviewHandoff) -> tuple[ReviewHandoff, list[s
     return review.model_copy(update={"reviews": reviews}), notes
 
 
+def verify_citations(review: ReviewHandoff, shown_ids: set[str]) -> tuple[ReviewHandoff, list[str]]:
+    """Claims may cite only records the model was shown; others are removed visibly (EV-11, no invented IDs)."""
+    notes: list[str] = []
+
+    def clean(candidate_id: str, claims: list[Claim]) -> list[Claim]:
+        kept: list[Claim] = []
+        for claim in claims:
+            bad = [i for i in claim.record_ids if i not in shown_ids]
+            if not bad:
+                kept.append(claim)
+                continue
+            good = [i for i in claim.record_ids if i in shown_ids]
+            if good:
+                notes.append(f"{candidate_id}: removed citation(s) not in the evidence shown: {', '.join(bad)}.")
+                kept.append(claim.model_copy(update={"record_ids": good}))
+            else:
+                notes.append(
+                    f"{candidate_id}: dropped claim {claim.statement!r}; it cited only records not in the "
+                    f"evidence shown ({', '.join(bad)})."
+                )
+        return kept
+
+    reviews = [
+        r.model_copy(
+            update={
+                "supported_claims": clean(r.candidate_id, r.supported_claims),
+                "disputed_claims": clean(r.candidate_id, r.disputed_claims),
+            }
+        )
+        for r in review.reviews
+    ]
+    return review.model_copy(update={"reviews": reviews}), notes
+
+
 def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
     def call_llm[T: BaseModel](
         state: RunState, node: str, role: Role, tier: Tier, user: str, output_model: type[T]
@@ -118,7 +152,9 @@ def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
             deps.budget.ensure_affordable(model, request.prompt_chars, request.max_output_tokens)
             result = deps.llm.complete(request, output_model)
         except (BudgetExceededError, LLMError) as exc:
-            deps.store.add_step(state["run_id"], node, model, Usage(), 0.0, error=str(exc))
+            spent = exc.usage if isinstance(exc, LLMError) and exc.usage else Usage()
+            cost = deps.budget.charge(model, spent) if spent != Usage() else 0.0  # failed attempts still cost
+            deps.store.add_step(state["run_id"], node, model, spent, cost, error=str(exc))
             failed: RunState = {
                 "status": "partial",
                 "notes": [*state.get("notes", []), f"{node}: {exc}"],
@@ -174,8 +210,10 @@ def build_graph(deps: GraphDeps, checkpointer: Any) -> Any:
         notes = [*state.get("notes", [])]
         if stray:
             notes.append("Dropped reviewer output for unrequested IDs: " + ", ".join(stray) + ".")
-        clean, contradictions = resolve_contradictions(output.model_copy(update={"reviews": reviews}))
-        notes.extend(contradictions)
+        shown = {*state["candidate_ids"], *state.get("evidence_ids", [])}
+        cited, citation_notes = verify_citations(output.model_copy(update={"reviews": reviews}), shown)
+        clean, contradictions = resolve_contradictions(cited)
+        notes.extend(citation_notes + contradictions)
         return {**update, "review": clean.model_dump(mode="json"), "notes": notes}
 
     def portfolio(state: RunState) -> RunState:

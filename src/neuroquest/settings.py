@@ -84,7 +84,7 @@ class Settings(BaseSettings):
     request_timeout_s: float = Field(default=60.0, gt=0, validation_alias="NEUROQUEST_REQUEST_TIMEOUT_S")
     max_retries: int = Field(default=2, ge=0, le=5, validation_alias="NEUROQUEST_MAX_RETRIES")
     max_evidence_records: int = Field(default=8, ge=1, le=20, validation_alias="NEUROQUEST_MAX_EVIDENCE_RECORDS")
-    max_output_tokens: int = Field(default=1500, ge=200, le=8000, validation_alias="NEUROQUEST_MAX_OUTPUT_TOKENS")
+    max_output_tokens: int = Field(default=3000, ge=200, le=8000, validation_alias="NEUROQUEST_MAX_OUTPUT_TOKENS")
 
     repo_root: Path | None = Field(default=None, validation_alias="NEUROQUEST_REPO_ROOT")
     state_dir: Path | None = Field(default=None, validation_alias="NEUROQUEST_STATE_DIR")

@@ -38,6 +38,6 @@ Each LLM node passes its Pydantic output model to OpenAI Structured Outputs, the
 ## Output budgets
 | Role | Max output | Notes |
 | --- | --- | --- |
-| All roles (first slice) | 1,500 tokens (`NEUROQUEST_MAX_OUTPUT_TOKENS`) | Structured JSON for up to ~5 candidates; also bounds the pre-call budget check |
+| All roles (first slice) | 3,000 tokens (`NEUROQUEST_MAX_OUTPUT_TOKENS`) | Structured JSON for up to ~5 candidates (a 3-candidate review measured ~1,400 tokens, so 1,500 truncated replies); also bounds the pre-call budget check |
 
 Values are starting settings, tuned against measured quality and cost.

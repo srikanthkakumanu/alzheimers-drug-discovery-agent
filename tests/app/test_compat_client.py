@@ -51,7 +51,8 @@ def test_google_key_accepts_either_name(tmp_path: Path, monkeypatch: pytest.Monk
 
 
 class _Completions:
-    def __init__(self, replies: list[str | None]) -> None:
+    def __init__(self, replies: list[str | None], finish: str = "stop") -> None:
+        self.finish = finish
         self.replies = replies
         self.calls: list[dict[str, object]] = []
 
@@ -59,12 +60,12 @@ class _Completions:
         self.calls.append(kwargs)
         usage = SimpleNamespace(prompt_tokens=10, completion_tokens=5, prompt_tokens_details=None)
         message = SimpleNamespace(content=self.replies.pop(0))
-        return SimpleNamespace(choices=[SimpleNamespace(message=message)], usage=usage)
+        return SimpleNamespace(choices=[SimpleNamespace(message=message, finish_reason=self.finish)], usage=usage)
 
 
-def _client_with(tmp_path: Path, replies: list[str | None]) -> tuple[CompatClient, _Completions]:
+def _client_with(tmp_path: Path, replies: list[str | None], finish: str = "stop") -> tuple[CompatClient, _Completions]:
     client = CompatClient(_settings(tmp_path, groq_api_key="k"))
-    completions = _Completions(replies)
+    completions = _Completions(replies, finish)
     client._clients["groq"] = SimpleNamespace(chat=SimpleNamespace(completions=completions))
     return client, completions
 
@@ -94,10 +95,19 @@ def test_client_repairs_once_then_succeeds(tmp_path: Path):
 
 def test_client_gives_up_after_repair(tmp_path: Path):
     client, _ = _client_with(tmp_path, [None, "not json"])
-    with pytest.raises(LLMError, match="after repair"):
+    with pytest.raises(LLMError, match="after repair") as info:
         client.complete(REQUEST, ReviewHandoff)
+    assert info.value.usage is not None
+    assert info.value.usage.input_tokens == 20  # both failed attempts are reported for charging
 
 
 def test_client_refuses_offline_mode(tmp_path: Path):
     with pytest.raises(ConfigurationError, match="OFFLINE"):
         CompatClient(_settings(tmp_path, offline=True))
+
+
+def test_truncated_reply_asks_for_a_shorter_answer(tmp_path: Path):
+    client, completions = _client_with(tmp_path, [VALID[:20], VALID[:20]], finish="length")
+    with pytest.raises(LLMError, match="cut off at 300 output tokens"):
+        client.complete(REQUEST, ReviewHandoff)
+    assert "Be more concise" in str(completions.calls[1]["messages"])
