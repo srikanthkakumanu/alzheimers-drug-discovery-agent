@@ -22,12 +22,13 @@ All ADRs are **accepted** (2026-11-09) except ADR-012, **superseded** by ADR-021
 | ~~[ADR-012](adr/ADR-012.md)~~ | Python 3.12 with uv and ruff — superseded by ADR-021 | language-and-tooling |
 | [ADR-013](adr/ADR-013.md) | Pydantic v2 models and strict typing | data-architecture |
 | [ADR-014](adr/ADR-014.md) | LangGraph as the run coordinator | orchestration-architecture |
-| [ADR-015](adr/ADR-015.md) | OpenAI as the application LLM provider | integration-architecture |
+| ~~[ADR-015](adr/ADR-015.md)~~ | OpenAI as the application LLM provider — superseded by ADR-022 | integration-architecture |
 | [ADR-016](adr/ADR-016.md) | Files plus SQLite for storage | data-architecture |
 | [ADR-017](adr/ADR-017.md) | Index lookup plus SQLite FTS5 retrieval | retrieval-architecture |
 | [ADR-018](adr/ADR-018.md) | LangSmith tracing with pytest evaluation | observability |
 | [ADR-019](adr/ADR-019.md) | Docker for packaging and runs | deployment |
 | [ADR-020](adr/ADR-020.md) | GitHub Actions quality gates | development-tooling |
 | [ADR-021](adr/ADR-021.md) | Python 3.13 runtime with uv and ruff | language-and-tooling |
+| [ADR-022](adr/ADR-022.md) | Low-cost LLM providers (Groq, Google, Mistral) via OpenAI-compatible endpoints | integration-architecture |
 
-Still open: OpenAI model IDs and prices per tier (set in `.env`), monthly budget ([TASK.md](TASK.md)).
+Still open: verify provider prices, monthly budget ([TASK.md](TASK.md)).

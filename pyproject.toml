@@ -3,6 +3,7 @@ name = "neuroquest"
 version = "0.1.0"
 description = "Evidence-grounded decision support for Alzheimer's research (synthetic demonstration)."
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.13,<3.14"
 dependencies = [
     "pydantic>=2.9",
@@ -62,4 +63,4 @@ warn_required_dynamic_aliases = true
 [tool.pytest.ini_options]
 testpaths = ["tests/app"]
 addopts = "-m 'not eval' --import-mode=importlib"
-markers = ["eval: live OpenAI evaluation (needs OPENAI_API_KEY; costs money)"]
+markers = ["eval: live LLM evaluation (needs provider API keys; may cost money)"]

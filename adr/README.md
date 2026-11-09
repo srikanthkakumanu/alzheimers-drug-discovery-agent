@@ -10,6 +10,6 @@ JSON frontmatter (`id`, `title`, `status`, `decision_type`, `recorded_on`), then
 - **Type:** distinguishes architecture (context, data, orchestration, integration, memory) from research scope, governance, and tooling. ADR-001 is a research-scope proposal, not an architectural fact.
 
 ## Status lifecycle
-`proposed` → `accepted` | `rejected`; later `deprecated` or `superseded`. All current ADRs are **accepted** except ADR-012 (**superseded** by ADR-021). Superseding records carry `supersedes` / `superseded_by`.
+`proposed` → `accepted` | `rejected`; later `deprecated` or `superseded`. All current ADRs are **accepted** except ADR-012 (**superseded** by ADR-021) and ADR-015 (**superseded** by ADR-022). Superseding records carry `supersedes` / `superseded_by`.
 
 When the owner decides: set the status, add `reviewed_on` and a one-line basis. To reverse an accepted decision, write a new ADR that links the old one and mark the old one `superseded`; never silently rewrite it. Never record a fictional approver or date. Accepting a repository design never implies scientific, ethical, or regulatory approval.

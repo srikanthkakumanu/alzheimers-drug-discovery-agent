@@ -26,8 +26,8 @@
   },
   "llm_policy": {
     "enforcement": "enforced by src/neuroquest: per-run USD cap checked before each call",
-    "provider": "openai",
-    "sdk": "openai-python, called directly in LangGraph nodes",
+    "provider": "groq, google, mistral via OpenAI-compatible endpoints (ADR-022); bare IDs use openai",
+    "sdk": "openai-python with per-provider base_url, called directly in LangGraph nodes",
     "tiers": {
       "economical": "NEUROQUEST_MODEL_ECONOMICAL",
       "capable": "NEUROQUEST_MODEL_CAPABLE",
@@ -38,7 +38,7 @@
       "unresolved evidence conflict",
       "high-impact scientific or regulatory synthesis"
     ],
-    "structured_output": "Pydantic models via OpenAI Structured Outputs; re-validated",
+    "structured_output": "JSON mode with Pydantic schema in the prompt, validated with one repair (OpenAI: Structured Outputs)",
     "bounded_output": true,
     "reuse_verified_summaries": true,
     "prompt_caching": "automatic provider prefix caching; measure cached_tokens, never assume",

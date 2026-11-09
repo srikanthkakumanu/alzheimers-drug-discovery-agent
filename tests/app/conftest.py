@@ -24,7 +24,9 @@ FAKE_PRICES = {f"fake-{tier}": FAKE_PRICE for tier in ("economical", "capable", 
 @pytest.fixture(autouse=True)
 def _isolate(monkeypatch: pytest.MonkeyPatch) -> None:
     for key in list(os.environ):
-        if key.startswith(("NEUROQUEST_", "OPENAI_", "LANGSMITH_", "TAVILY_")):
+        if key.startswith(
+            ("NEUROQUEST_", "OPENAI_", "LANGSMITH_", "TAVILY_", "GROQ_", "GEMINI_", "GOOGLE_", "MISTRAL_")
+        ):
             monkeypatch.delenv(key)
 
     def refuse(*_args: object, **_kwargs: object) -> None:

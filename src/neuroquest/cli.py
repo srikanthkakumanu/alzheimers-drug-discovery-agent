@@ -36,10 +36,20 @@ EXIT_PARTIAL, EXIT_INPUT, EXIT_CONFLICT = 3, 4, 5
 
 
 def make_llm(settings: Settings) -> LLMClient:
-    """Factory seam: tests replace this to avoid network calls."""
-    from neuroquest.llm.openai_client import OpenAIClient
+    """Factory seam: tests replace this to avoid network calls.
 
-    return OpenAIClient(settings)
+    Provider-prefixed model IDs (groq:, google:, mistral:) use the low-cost compatible client;
+    bare IDs keep the original OpenAI Responses client.
+    """
+    from neuroquest.service import PIPELINE_TIERS
+
+    if settings.providers_in_use(PIPELINE_TIERS) == {"openai"}:
+        from neuroquest.llm.openai_client import OpenAIClient
+
+        return OpenAIClient(settings)
+    from neuroquest.llm.compat_client import CompatClient
+
+    return CompatClient(settings)
 
 
 def _service() -> ReviewService:

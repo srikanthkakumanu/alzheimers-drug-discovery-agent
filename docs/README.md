@@ -10,7 +10,7 @@ Design reference layer. Read the one document your question needs. Phase: [STATU
 | | [roadmap](product/roadmap.md) | Evidence-gated milestones |
 | | [risks](product/risks.md) | Risk register R-01–12 |
 | Architecture | [architecture](architecture/architecture.md) | Current vs target system, context layers, failure handling |
-| | [tech-stack](architecture/tech-stack.md) | Selected stack ADR-011–ADR-020 and engineering conventions |
+| | [tech-stack](architecture/tech-stack.md) | Selected stack ADR-011–ADR-022 and engineering conventions |
 | | [agent-design](architecture/agent-design.md) | Role I/O, run lifecycle, handoff schema |
 | | [data-contracts](architecture/data-contracts.md) | Field-level record schemas and invariants |
 | | [tools-and-integrations](architecture/tools-and-integrations.md) | Tool capabilities, result envelope, connector policy |

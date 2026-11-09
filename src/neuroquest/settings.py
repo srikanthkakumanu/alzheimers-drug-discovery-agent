@@ -7,6 +7,7 @@ Model IDs and prices are configuration, never code (ADR-015).
 from __future__ import annotations
 
 import os
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Literal
 
@@ -16,6 +17,34 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 from neuroquest.errors import ConfigurationError
 
 Tier = Literal["economical", "capable", "escalation"]
+
+
+@dataclass(frozen=True, slots=True)
+class Provider:
+    label: str
+    base_url: str
+    key_env: tuple[str, ...]  # accepted environment variable names, preferred first
+
+
+# OpenAI-compatible endpoints for the low-cost providers (ADR-022).
+PROVIDERS: dict[str, Provider] = {
+    "groq": Provider("Groq", "https://api.groq.com/openai/v1", ("GROQ_API_KEY",)),
+    "google": Provider(
+        "Google Gemini",
+        "https://generativelanguage.googleapis.com/v1beta/openai/",
+        ("GEMINI_API_KEY", "GOOGLE_API_KEY"),
+    ),
+    "mistral": Provider("Mistral", "https://api.mistral.ai/v1", ("MISTRAL_API_KEY",)),
+    "openai": Provider("OpenAI", "https://api.openai.com/v1", ("OPENAI_API_KEY",)),
+}
+
+
+def split_model_id(model_id: str) -> tuple[str, str]:
+    """`groq:llama-3.1-8b-instant` -> ("groq", "llama-3.1-8b-instant"); no known prefix -> ("openai", id)."""
+    provider, sep, model = model_id.partition(":")
+    if sep and provider in PROVIDERS:
+        return provider, model
+    return "openai", model_id
 
 
 class ModelPrice(BaseModel):
@@ -41,6 +70,11 @@ class Settings(BaseSettings):
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore", populate_by_name=True)
 
     openai_api_key: SecretStr | None = Field(default=None, validation_alias="OPENAI_API_KEY")
+    groq_api_key: SecretStr | None = Field(default=None, validation_alias="GROQ_API_KEY")
+    google_api_key: SecretStr | None = Field(
+        default=None, validation_alias=AliasChoices("GEMINI_API_KEY", "GOOGLE_API_KEY")
+    )
+    mistral_api_key: SecretStr | None = Field(default=None, validation_alias="MISTRAL_API_KEY")
     model_economical: str | None = Field(default=None, validation_alias="NEUROQUEST_MODEL_ECONOMICAL")
     model_capable: str | None = Field(default=None, validation_alias="NEUROQUEST_MODEL_CAPABLE")
     model_escalation: str | None = Field(default=None, validation_alias="NEUROQUEST_MODEL_ESCALATION")
@@ -75,8 +109,23 @@ class Settings(BaseSettings):
             "escalation": self.model_escalation,
         }[tier]
         if not model:
-            raise ConfigurationError(f"Set NEUROQUEST_MODEL_{tier.upper()} to an OpenAI model ID.")
+            raise ConfigurationError(f"Set NEUROQUEST_MODEL_{tier.upper()} to a model ID, e.g. groq:<model>.")
         return model
+
+    def providers_in_use(self, tiers: tuple[Tier, ...]) -> set[str]:
+        return {split_model_id(self.model_for(tier))[0] for tier in tiers}
+
+    def api_key_for(self, provider: str) -> str:
+        key = {
+            "openai": self.openai_api_key,
+            "groq": self.groq_api_key,
+            "google": self.google_api_key,
+            "mistral": self.mistral_api_key,
+        }[provider]
+        if key is None:
+            names = " or ".join(PROVIDERS[provider].key_env)
+            raise ConfigurationError(f"Set {names} to call {PROVIDERS[provider].label} models.")
+        return key.get_secret_value()
 
     def price_for(self, model: str) -> ModelPrice:
         price = self.model_prices.get(model)

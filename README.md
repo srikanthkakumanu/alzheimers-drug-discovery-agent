@@ -1,6 +1,6 @@
 # NeuroQuest — Alzheimer’s research decision support
 
-NeuroQuest is an assistant that turns an Alzheimer’s research question into a traceable, human-reviewed decision packet. This repository holds the application (`src/neuroquest`, first slice), its **design documentation**, and a **synthetic demonstration corpus**. Stack: Python 3.13, Pydantic, LangGraph, OpenAI ([tech-stack](docs/architecture/tech-stack.md)). Current phase: [STATUS.md](STATUS.md). Overview: [PROJECT.md](PROJECT.md).
+NeuroQuest is an assistant that turns an Alzheimer’s research question into a traceable, human-reviewed decision packet. This repository holds the application (`src/neuroquest`, first slice), its **design documentation**, and a **synthetic demonstration corpus**. Stack: Python 3.13, Pydantic, LangGraph, low-cost LLMs via Groq / Google Gemini / Mistral ([tech-stack](docs/architecture/tech-stack.md)). Current phase: [STATUS.md](STATUS.md). Overview: [PROJECT.md](PROJECT.md).
 
 ## Repository layout
 ```text
@@ -13,7 +13,7 @@ knowledge/      pathways, research strategy, landscape   │  CLAUDE.md rules pe
 regulatory/     dated FDA references and gap assessment  │
 memory/         12 fictional campaign periods            ┘
 adr/            decision records (all accepted; 012 superseded by 021)
-src/neuroquest/ application: models, scoring, LangGraph run, OpenAI client, CLI
+src/neuroquest/ application: models, scoring, LangGraph run, LLM clients, CLI
 tests/app/      offline application tests (pytest)   · pyproject.toml, uv.lock, Dockerfile
 docs/           product/, architecture/, delivery/, context guide, glossary
 runbooks/  workflows/  config/   procedures and descriptive contracts
@@ -57,7 +57,7 @@ python3 -m unittest discover -s tests -v
 They check links, labels, record IDs, score arithmetic, gates, rating evidence, ADR structure, Claude settings (including `.env` deny rules), and file-size budgets; record counts may grow above the minimums in `config/settings.json`. They do not establish scientific truth, source currency, or design approval.
 
 ## Configuration
-[.env.example](.env.example) lists placeholders (OpenAI, LangSmith, Tavily, model tiers); copy with `cp -n .env.example .env`. Nothing reads `.env` today, and it is git-ignored. [config/](config/README.md) holds descriptive contracts (scoring, context budgets, disabled integrations); native Claude settings live in `.claude/settings.json`.
+[.env.example](.env.example) lists placeholders (Groq, Gemini, Mistral, OpenAI, LangSmith, Tavily, model tiers); copy with `cp -n .env.example .env`. The app reads `.env` (Claude never does), and it is git-ignored. [config/](config/README.md) holds descriptive contracts (scoring, context budgets, disabled integrations); native Claude settings live in `.claude/settings.json`.
 
 ## Data and licensing
-Candidate, experiment, and history records are **SYNTHETIC DEMONSTRATION** data. Literature summaries cite real publications, which keep their own terms. No repository license is specified yet.
+Candidate, experiment, and history records are **SYNTHETIC DEMONSTRATION** data. Literature summaries cite real publications, which keep their own terms. Code and documentation are released under the [MIT License](LICENSE).
