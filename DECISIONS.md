@@ -15,5 +15,5 @@ All ADRs are **proposed** pending owner review. Load only the record you need. C
 | [ADR-009](adr/ADR-009.md) | Versioned regulatory references and bounded interpretation | evidence-governance | Draft guidance never presented as binding |
 | [ADR-010](adr/ADR-010.md) | Offline document validation and bounded hook feedback | development-tooling | Structural checks only; not scientific validation |
 
-## Decisions not yet framed as ADRs
-Interface, application language, coordinator, LLM provider and model tiers, persistence, retrieval, deployment, and run budget. Options and criteria: [tech-stack.md](docs/architecture/tech-stack.md). Each choice becomes a new ADR (ADR-011 onward) when the owner decides.
+## Technology decisions (selected by owner, 2026-11-09)
+TD-01–TD-10 in [tech-stack.md](docs/architecture/tech-stack.md): Typer CLI · Python 3.12 + uv · Pydantic v2 + strict typing · LangGraph · OpenAI · files + SQLite · index + FTS5 · LangSmith + pytest · Docker · GitHub Actions. They become ADR-011 onward once the validator supports more than ten ADRs. Still open: OpenAI model IDs per tier and budget values.

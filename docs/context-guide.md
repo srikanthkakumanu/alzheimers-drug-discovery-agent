@@ -24,15 +24,15 @@ Skill descriptions (3) and command descriptions (2) are always visible to Claude
 3. Prefer a dated summary when its scope answers the question; open source methods only for unresolved, high-impact claims, and record access limits.
 4. Stop when the question is answered or the missing evidence is identified. Do not spend tokens speculating past missing data.
 
-## Model tiering (proposal; no provider selected)
+## Model tiering (OpenAI, TD-05; model IDs set in configuration)
 | Work | Tier |
 | --- | --- |
-| Routing, ID lookup, extraction, formatting | Economical model, or no model (deterministic tool) |
+| Routing, ID lookup, extraction, formatting | Economical tier, or no model (deterministic tool) |
 | Score arithmetic, gate checks, schema validation | No model |
-| Conflicting evidence, scientific or regulatory synthesis, study design | Capable model; record why it escalated |
+| Conflicting evidence, scientific or regulatory synthesis, study design | Capable tier; escalation tier only for a flagged hard conflict, with the reason recorded |
 
 ## Prompt caching (future runtime)
-Order prompts from most stable to least: L0 rules → role contract → index → selected records → question. Cache the stable prefix where the provider supports it, and measure cache reads; never assume savings. Keep volatile values (dates, run IDs) out of the cached prefix.
+Order prompts from most stable to least: L0 rules → role contract → index → selected records → question. OpenAI caches repeated prompt prefixes automatically once prompts are long enough; check `cached_tokens` in usage and never assume savings. Keep volatile values (dates, run IDs) out of the cached prefix.
 
 ## Handoffs and memory
 Handoff: question · record IDs · finding · uncertainty/gates · next action, ≤400 tokens, links instead of pasted records ([schema](../roles/README.md)). Durable accepted lessons go in [MEMORY.md](../MEMORY.md) or role `MEMORY.md` as one line with a link; details stay in primary records. Start a fresh session when the current one is no longer useful instead of carrying a long transcript.

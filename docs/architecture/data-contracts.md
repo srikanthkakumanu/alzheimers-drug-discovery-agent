@@ -46,7 +46,23 @@ Period: `id`, `provenance: "synthetic"`, `campaign_period`, `calendar_mapping: n
 | Run | `run_id`, question, scope, record IDs + versions, step transitions, tool calls, model and prompt versions, token usage, budget state, final status |
 | Human decision | `decision_id`, packet version, evidence versions, disposition, accountable actor (authenticated), timestamp, reason |
 
-A model must never generate the actor or timestamp of a human decision. Storage format, API shape, migrations, and authentication are deferred to [tech-stack](tech-stack.md).
+A model must never generate the actor or timestamp of a human decision. Run, checkpoint, and decision records live in SQLite (TD-06); authentication is decided with the deployment model.
 
 ## Change control
 Keep primary observations intact when interpretation changes. Distinguish source date, verification date, fictional period, and real review date. Never backdate studies or treat an archive entry as proof that work occurred.
+
+## Implementation models (Pydantic v2, strict typing — TD-03)
+Each contract above becomes one Pydantic model; the validator’s rules become model validators so the CLI, graph, and checks share one definition.
+
+| Model | Key types and validators |
+| --- | --- |
+| `Candidate` | `Rating = Annotated[int, Field(ge=0, le=5)] \| None`; `GateState = Literal["pass","fail","unknown"]`; `Disposition` literal; validators: total matches formula, any `fail`/hard block ⇒ `blocked`, null rating ⇒ provisional |
+| `Experiment` | `Status` literal; validator: `proposed` has no measurements; `measured_candidate_ids ⊆ candidate_ids` |
+| `Paper` | `pmid: str` (digits), `doi` pattern, `verified_on: date` |
+| `CampaignPeriod`, `ADR` | `calendar_mapping: None`; `status` literal |
+| `ScoringModel` | Weights sum to 100; six required gates; loaded from `config/scoring-model.json` |
+| `Handoff`, `ToolResult` | As in [agent design](agent-design.md) and [tools](tools-and-integrations.md) |
+| `RunRecord`, `HumanDecision` | Token and cost usage from provider data; actor from authentication only |
+| `Settings` (pydantic-settings) | API keys as `SecretStr`; model IDs per tier; budget values |
+
+Conventions: models are `frozen=True` where records are read-only; `extra="forbid"` on LLM output models so unexpected fields fail validation; IDs use distinct `NewType`s (`CandidateId`, `ExperimentId`, `PaperId`); all code passes `mypy --strict`.

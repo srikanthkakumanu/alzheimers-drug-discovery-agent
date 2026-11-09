@@ -11,7 +11,7 @@ Follow the [review plan](docs/delivery/review-plan.md). Start with [PROJECT.md](
 | 1 | Confirm personas, use cases, and out-of-scope boundaries | [BRD](docs/product/brd.md) |
 | 2 | Accept, revise, or reject each proposed ADR | [DECISIONS.md](DECISIONS.md) |
 | 3 | Confirm Tau-first demonstration scope | [ADR-001](adr/ADR-001.md) |
-| 4 | Select interface, language, coordinator, provider/model, storage | [technology options](docs/architecture/tech-stack.md) |
+| 4 | ~~Select interface, language, coordinator, provider, storage~~ **Done 2026-11-09**; still choose OpenAI model IDs per tier | [tech-stack](docs/architecture/tech-stack.md) |
 | 5 | Set a per-run and monthly LLM budget and the exhausted-budget behavior | [cost design](docs/architecture/observability-and-cost.md) |
 | 6 | Approve evaluation scenarios and release thresholds | [evaluation plan](docs/delivery/evaluation-plan.md) |
 | 7 | Approve the first implementation slice | [implementation plan](docs/delivery/implementation-plan.md) |

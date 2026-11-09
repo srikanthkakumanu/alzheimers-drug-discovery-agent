@@ -39,10 +39,10 @@ flowchart LR
 
 | Component | Responsibility | LLM? |
 | --- | --- | --- |
-| Coordinator | Scope the question, select needed steps, enforce budget and transition rules, stop on block or exhaustion | No |
+| Coordinator (LangGraph) | Scope the question, select needed steps, enforce budget and transition rules, stop on block or exhaustion | No |
 | Deterministic tools | Resolve IDs, load records, compute scores, evaluate gates, validate handoff schema | No |
-| Role steps | Evidence synthesis, critique, study concepts, gap assessment, recommendation | Yes, tiered by role |
-| Evidence store | Primary records with provenance and versions (files first) | No |
+| Role steps | Evidence synthesis, critique, study concepts, gap assessment, recommendation | Yes — OpenAI, tiered by role |
+| Evidence store | Markdown/JSON records in git; SQLite FTS5 index; SQLite checkpoints and decisions | No |
 | Decision recorder | Attributable human disposition tied to a packet version | No (human action) |
 
 Roles are logical steps, not services or mandatory calls. The coordinator skips roles the question does not need. Arithmetic, IDs, and gates never go through model generation.
@@ -59,4 +59,4 @@ Candidate records own current ratings and gates; experiments own observations; l
 | Tool or source unavailable | Typed failure with access limit; no invented content |
 | Budget exhausted | Explicit partial result with unresolved questions |
 
-Not selected yet: HTTP API, database, queue, deployment topology ([tech-stack](tech-stack.md)). Cross-cutting: [security](security-and-data-governance.md), [cost](observability-and-cost.md), [evaluation](../delivery/evaluation-plan.md).
+Selected stack (TD-01–TD-10): Python 3.12, Pydantic v2 with strict typing, Typer CLI, LangGraph, OpenAI SDK, SQLite, LangSmith, Docker ([tech-stack](tech-stack.md)). No HTTP API or queue in the first version. Cross-cutting: [security](security-and-data-governance.md), [cost](observability-and-cost.md), [evaluation](../delivery/evaluation-plan.md).

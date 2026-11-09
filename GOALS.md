@@ -17,7 +17,7 @@ All targets are **proposals for owner review**; none has been measured. Evaluati
 | --- | --- |
 | Scope agreed | Owner disposition on [BRD](docs/product/brd.md) |
 | Material decisions resolved | ADRs accepted or rejected in [DECISIONS.md](DECISIONS.md) |
-| Stack and budget chosen | Selection recorded in [technology options](docs/architecture/tech-stack.md) |
+| Stack and budget chosen | Stack recorded ([TD-01–TD-10](docs/architecture/tech-stack.md)); budget still open |
 | First slice approved | [implementation plan](docs/delivery/implementation-plan.md) |
 | Repository consistent | `python3 scripts/validate_repository.py` passes |
 

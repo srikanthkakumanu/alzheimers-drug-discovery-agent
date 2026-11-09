@@ -1,6 +1,6 @@
 # NeuroQuest — Alzheimer’s research decision support (design package)
 
-NeuroQuest is a proposed assistant that turns an Alzheimer’s research question into a traceable, human-reviewed decision packet. This repository holds its **design documentation** and a **synthetic demonstration corpus**. There is no application code yet. Current phase: [STATUS.md](STATUS.md). Overview: [PROJECT.md](PROJECT.md).
+NeuroQuest is a proposed assistant that turns an Alzheimer’s research question into a traceable, human-reviewed decision packet. This repository holds its **design documentation** and a **synthetic demonstration corpus**. There is no application code yet; the planned stack is Python, Pydantic, LangGraph, and OpenAI ([tech-stack](docs/architecture/tech-stack.md)). Current phase: [STATUS.md](STATUS.md). Overview: [PROJECT.md](PROJECT.md).
 
 ## Repository layout
 ```text
@@ -44,7 +44,7 @@ python3 -m unittest discover -s tests -v
 They check links, labels, record IDs, score arithmetic, gates, and file-size budgets. They do not establish scientific truth, source currency, or design approval.
 
 ## Configuration
-[.env.example](.env.example) lists placeholders; copy with `cp -n .env.example .env`. Nothing reads `.env` today, and it is git-ignored. [config/](config/README.md) holds descriptive contracts (scoring, context budgets, disabled integrations); native Claude settings live in `.claude/settings.json`.
+[.env.example](.env.example) lists placeholders (OpenAI, LangSmith, model tiers); copy with `cp -n .env.example .env`. Nothing reads `.env` today, and it is git-ignored. [config/](config/README.md) holds descriptive contracts (scoring, context budgets, disabled integrations); native Claude settings live in `.claude/settings.json`.
 
 ## Data and licensing
 Candidate, experiment, and history records are **SYNTHETIC DEMONSTRATION** data. Literature summaries cite real publications, which keep their own terms. No repository license is specified yet.

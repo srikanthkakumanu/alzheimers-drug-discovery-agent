@@ -33,4 +33,4 @@ Targets are proposals; numeric values are set by the owner before implementation
 | NFR-10 | Compatibility | Keep repository conventions, Claude Code customization, and application contracts separate | Review |
 
 ## Open questions for the owner
-Interface, deployment, provider/model, orchestration, storage/search, approved external sources, real-data scope, budget values, and latency targets. Framed in [tech-stack](../architecture/tech-stack.md) and [TASK.md](../../TASK.md).
+Stack is selected ([tech-stack](../architecture/tech-stack.md)). Still open: OpenAI model IDs per tier, approved external sources, real-data scope, budget values, and latency targets ([TASK.md](../../TASK.md)).

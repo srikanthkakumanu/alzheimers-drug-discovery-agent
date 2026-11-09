@@ -4,13 +4,13 @@ Roles are written responsibility contracts used by an operator or a Claude skill
 
 | Role | Use when | Typical next role | Suggested model tier |
 | --- | --- | --- | --- |
-| [Researcher](researcher/CLAUDE.md) | Map a claim to supporting and conflicting sources | Reviewer | Economical; escalate for conflicting trials |
+| [Researcher](researcher/CLAUDE.md) | Map a claim to supporting and conflicting sources | Reviewer | Economical; capable for conflicting trials |
 | [Reviewer](reviewer/CLAUDE.md) | Check provenance, artifacts, replication, score arithmetic, gates | Planner or Researcher | Economical (arithmetic is deterministic) |
 | [Planner](planner/CLAUDE.md) | Design the smallest study that could change a decision | Regulatory or Portfolio | Capable |
 | [Regulatory](regulatory/CLAUDE.md) | Assess stage-specific evidence and guidance gaps | Portfolio | Capable |
 | [Portfolio](portfolio/CLAUDE.md) | Compare options and prepare the human decision packet | Human owner | Capable |
 
-Skip roles the question does not need. Tiers are proposals; no provider is selected ([tech options](../docs/architecture/tech-stack.md)).
+Skip roles the question does not need. Tiers map to OpenAI models set in configuration ([tech-stack](../docs/architecture/tech-stack.md), TD-05).
 
 ## Shared rules (apply to every role)
 Root [CLAUDE.md](../CLAUDE.md) rules always apply. In addition:

@@ -4,6 +4,7 @@ Manually curated project record, separate from Claude’s machine-local auto mem
 
 ## Owner direction
 - 2026-11-09: Prepare and review documentation and design before any application code. Proposals are not accepted decisions until the owner records them.
+- 2026-11-09: Owner selected the stack: Python 3.12, Pydantic v2 with strict typing, LangGraph, **OpenAI** (not Claude) for the application LLM, SQLite, LangSmith, Docker — [tech-stack](docs/architecture/tech-stack.md).
 
 ## Scenario lessons (SYNTHETIC DEMONSTRATION)
 - An optical artifact invalidates a primary efficacy signal (C) — [period 03](memory/month-03.md).

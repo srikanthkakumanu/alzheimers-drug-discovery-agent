@@ -1,6 +1,6 @@
 # Evaluation plan
 
-Proposed. No evaluation harness exists and no model has been benchmarked. The existing Python tests cover repository structure and the Stop hook only.
+Proposed. No evaluation harness exists and no model has been benchmarked. The existing Python tests cover repository structure and the Stop hook only. Selected tooling (TD-08): scenarios as pytest tests plus a LangSmith dataset; deterministic checks run without model calls.
 
 ## Layers
 | Layer | What | Status |

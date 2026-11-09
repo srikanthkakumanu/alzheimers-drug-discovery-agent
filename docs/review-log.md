@@ -2,6 +2,9 @@
 
 Dated record of documentation passes. Newest first. Scientific content is not re-verified by these passes unless stated.
 
+## 2026-11-09 — Pass 3: technology stack recorded
+Owner selected TD-01–TD-10: Typer CLI, Python 3.12 + uv, Pydantic v2 with `mypy --strict`, LangGraph, OpenAI (changed from an initial Claude choice), files + SQLite, index + FTS5, LangSmith, Docker, GitHub Actions. Updated tech-stack, architecture, agent design (graph nodes, typed state), data contracts (Pydantic models), cost, security (third-party processing), implementation and evaluation plans, context guide, roles, `.env.example`, STATUS, TASK, DECISIONS, ADR-004. Recorded as TD-xx because the validator allows exactly ten ADRs. No code changed.
+
 ## 2026-11-09 — Pass 2: layered context restructure and consolidation
 **Goal:** apply Claude Code context layering, cut repeated context, improve content depth, without application code or changes to Python tooling.
 

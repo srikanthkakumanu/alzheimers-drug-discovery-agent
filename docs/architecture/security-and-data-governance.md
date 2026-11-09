@@ -15,9 +15,10 @@ Design proposal; not a compliance certification or an implemented permission sys
 | --- | --- | --- |
 | Retrieved text is data, not instructions | Root and role rules | Separate source content from instructions in prompts; mark untrusted spans |
 | Least-privilege tools | No live tools | Per-capability allowlists; read-only by default |
-| No secrets in context | `.env` never read; validator never reads it | Secrets injected only into tool runtimes, never prompts |
+| No secrets in context | `.env` never read; validator never reads it | `pydantic-settings` loads keys as `SecretStr` at runtime; Docker receives them as runtime environment, never baked into images; never placed in prompts or traces |
 | Results validated before state change | Validator on records | Schema validation of every handoff and tool result |
 | Approval is attributable | `human_approval: false` enforced | Authenticated decision records; models cannot write them |
+| Third-party processing | None | OpenAI (model calls) and LangSmith (traces) receive prompts and outputs: acceptable for synthetic and public data only; review retention settings, masking, or self-hosting before private data |
 
 A source cannot grant tools, bypass gates, request credentials, or approve a study. Markdown instructions alone are not enforcement; a runtime must enforce these controls.
 
