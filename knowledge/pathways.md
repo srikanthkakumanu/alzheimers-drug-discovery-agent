@@ -16,4 +16,4 @@ Published background, verified 2026-11-09; applying it to the portfolio is a dem
 3. Are free exposure and assay validity known?
 4. Is a biomarker change being mistaken for patient benefit?
 
-Tau counterevidence ([Tauriel](../literature/paper-010.md), [Lauriet](../literature/paper-011.md), [TANGO](../literature/paper-012.md), [tilavonemab](../literature/paper-013.md)) must stay visible, without assuming all Tau modalities are equivalent. Strategy: [research-strategy](research-strategy.md).
+Tau counterevidence ([LMTM phase 3](../literature/paper-021.md), [LMTM revised analysis](../literature/paper-022.md), [Tauriel](../literature/paper-010.md), [Lauriet](../literature/paper-011.md), [TANGO](../literature/paper-012.md), [tilavonemab](../literature/paper-013.md)) must stay visible, without assuming all Tau modalities are equivalent. Strategy: [research-strategy](research-strategy.md).

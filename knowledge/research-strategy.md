@@ -8,6 +8,7 @@
 - These motivate research; they do not show that a small molecule will benefit patients.
 
 ## Counterevidence that must stay visible
+- **Closest analog:** the small-molecule Tau aggregation inhibitor LMTM failed its prespecified phase 3 primary analyses ([paper-021](../literature/paper-021.md), [022](../literature/paper-022.md)). Any aggregation-inhibitor claim must address this first.
 - N-terminal anti-Tau antibodies failed or were discordant in phase 2 ([paper-010](../literature/paper-010.md), [011](../literature/paper-011.md), [012](../literature/paper-012.md), [013](../literature/paper-013.md)).
 - Tau lowering by intrathecal ASO is a different mechanism and route ([paper-009](../literature/paper-009.md)); do not transfer its engagement or safety to this portfolio.
 - Amyloid antibodies show modest clinical slowing with adverse events ([paper-014](../literature/paper-014.md), [015](../literature/paper-015.md)); they are comparators, not support for Tau.
@@ -15,7 +16,7 @@
 ## Evidence sequence for a candidate
 1. Exclude optical interference, aggregation artifacts, and cytotoxicity before treating a signal as activity.
 2. Require an orthogonal biochemical readout, cellular confirmation, and independent replication.
-3. Establish identity, measured unbound CNS exposure, direct engagement, selectivity, and safety margins; separate predictions from measurements.
+3. Establish identity, measured unbound CNS exposure (Kp,uu, [paper-023](../literature/paper-023.md)), direct engagement, selectivity, and safety margins; separate predictions from measurements.
 4. Choose the next study by the uncertainty it resolves, not by score.
 
 ## Falsification triggers

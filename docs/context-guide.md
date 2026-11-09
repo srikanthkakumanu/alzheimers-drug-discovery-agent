@@ -7,16 +7,16 @@ Token figures are `ceil(bytes / 4)` estimates measured on 2026-11-09. This is a 
 
 | Layer | Content | Loaded | Measured | Budget (validator) |
 | --- | --- | --- | --- | --- |
-| L0 | Root `CLAUDE.md`: rules + router | Every turn, automatically | ~660 tok | ≤3,200 B |
-| L1 | `TASK.md` + `STATUS.md` | Start of each task | ~910 tok | ≤8,000 B each |
+| L0 | Root `CLAUDE.md`: rules + router | Every turn, automatically | ~690 tok | ≤3,200 B |
+| L1 | `TASK.md` + `STATUS.md` | Start of each task | ~1,080 tok | ≤8,000 B each |
 | L2 | One role contract (+ shared role index if needed) | Research/review tasks | ~250–300 tok per role (+~550 index) | ≤2,400 B |
 | L3 | One directory `README.md` | To pick IDs | ~590–630 tok | ≤6,000 B |
 | L4 | Records, ≤3 per batch; directory `CLAUDE.md` rules auto-load once | Only what the claim needs | Candidate ~620, experiment ~390, paper ~270; rules ~190–250 | ≤8,000 B each; rules ≤2,400 B |
 | Ref | `docs/` design documents | Design questions only | — | ≤8,000 B |
 
-Skill descriptions (3) and command descriptions (2) are always visible to Claude; a skill body (~370 tokens) loads only when invoked.
+Skill descriptions (3) and command descriptions (2) are always visible to Claude; a skill body (~400 tokens) loads only when invoked.
 
-**Measured bundles:** session start (L0 + L1) ≈ 1,570 tokens, under the 2,500 target. Full A/G/N review (L0–L4 with skill, role, index, 3 candidates, 3 experiments, rules) ≈ 6,700 tokens, slightly over the 6,000 working target; open the third experiment only if the first two leave the dispute unresolved.
+**Measured bundles:** session start (L0 + L1) ≈ 1,770 tokens, under the 2,500 target. Full A/G/N review (L0–L4 with skill, role, index, 3 candidates, 3 experiments, rules) ≈ 6,900 tokens, slightly over the 6,000 working target; open the third experiment only if the first two leave the dispute unresolved.
 
 ## Retrieval protocol
 1. Name the decision and the unresolved claim before reading evidence.
@@ -24,7 +24,7 @@ Skill descriptions (3) and command descriptions (2) are always visible to Claude
 3. Prefer a dated summary when its scope answers the question; open source methods only for unresolved, high-impact claims, and record access limits.
 4. Stop when the question is answered or the missing evidence is identified. Do not spend tokens speculating past missing data.
 
-## Model tiering (OpenAI, TD-05; model IDs set in configuration)
+## Model tiering (OpenAI, [ADR-015](../adr/ADR-015.md); model IDs set in configuration)
 | Work | Tier |
 | --- | --- |
 | Routing, ID lookup, extraction, formatting | Economical tier, or no model (deterministic tool) |

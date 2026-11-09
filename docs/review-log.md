@@ -2,6 +2,13 @@
 
 Dated record of documentation passes. Newest first. Scientific content is not re-verified by these passes unless stated.
 
+## 2026-11-09 — Pass 4: gap fixes and tooling rewrite
+- **Tooling:** validator rewritten schema-based (minimum counts in `config/settings.json`; rating-evidence, score-history, ADR, `.env` deny-rule, runtime-ignore checks; links in code fences ignored). Hook reports a missing validator and truncated failures. Tests 39 → 53. `.claude/settings.json` denies Claude `Read`/`Edit` of `.env`. CI actions updated (checkout v5, setup-python v6).
+- **Decisions:** TD-01–10 became accepted ADR-011–020; ADR-004, 008, 010 updated.
+- **New design docs:** [application design](architecture/application-design.md) (layout, conventions, CLI, SQLite, OpenAI failures, Docker), [prompt design](architecture/prompt-design.md), [testing strategy](delivery/testing-strategy.md).
+- **Evidence:** papers 021–023 (LMTM phase 3 ×2, Kp,uu review) and FDA S7B + E14/S7B Q&A, verified via Europe PMC and FDA pages. EMA guideline not verified, so not cited.
+- **Config:** LLM policy (OpenAI tiers, tracing), Tavily web search as a disabled inventory entry and blank `TAVILY_API_KEY`, `ANTHROPIC_API_KEY` removed, `.gitignore` covers `var/` and SQLite files. Glossary, CLAUDE.md conventions pointer, skill argument hints.
+
 ## 2026-11-09 — Pass 3: technology stack recorded
 Owner selected TD-01–TD-10: Typer CLI, Python 3.12 + uv, Pydantic v2 with `mypy --strict`, LangGraph, OpenAI (changed from an initial Claude choice), files + SQLite, index + FTS5, LangSmith, Docker, GitHub Actions. Updated tech-stack, architecture, agent design (graph nodes, typed state), data contracts (Pydantic models), cost, security (third-party processing), implementation and evaluation plans, context guide, roles, `.env.example`, STATUS, TASK, DECISIONS, ADR-004. Recorded as TD-xx because the validator allows exactly ten ADRs. No code changed.
 

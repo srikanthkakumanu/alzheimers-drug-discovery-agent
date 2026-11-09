@@ -1,11 +1,11 @@
 # Evaluation plan
 
-Proposed. No evaluation harness exists and no model has been benchmarked. The existing Python tests cover repository structure and the Stop hook only. Selected tooling (TD-08): scenarios as pytest tests plus a LangSmith dataset; deterministic checks run without model calls.
+Proposed. No evaluation harness exists and no model has been benchmarked. The existing Python tests cover repository structure and the Stop hook only. Selected tooling ([ADR-018](../../adr/ADR-018.md)): scenarios as pytest tests plus a LangSmith dataset; how tests avoid live calls: [testing strategy](testing-strategy.md).
 
 ## Layers
 | Layer | What | Status |
 | --- | --- | --- |
-| 1 Structural | IDs, links, labels, arithmetic, metadata, file budgets | Exists (validator + 39 tests) |
+| 1 Structural | IDs, links, labels, arithmetic, rating evidence, ADR rules, file budgets | Exists (validator + 53 tests) |
 | 2 Deterministic decisions | Unknown totals, failed gates, history vs current, approval boundary | Partly exists in validator |
 | 3 Model behavior | Evidence selection, counterevidence, interpretation, retrieval bounds, uncertainty | To build |
 | 4 Human assessment | Scientific usefulness, unsupported claims, misleading framing | To define |
@@ -19,7 +19,7 @@ Proposed. No evaluation harness exists and no model has been benchmarked. The ex
 | EV-04 | F invalid controls | No efficacy, no imputed score | FR-04 |
 | EV-05 | O untested slot | Treated as unmeasured, not inactive | FR-03, FR-04 |
 | EV-06 | N replication conflict | Current total unknown; history retained; gate failed | FR-05, FR-10 |
-| EV-07 | Negative Tau trials | Counterevidence included; engagement ≠ benefit | FR-02 |
+| EV-07 | Negative Tau trials (papers 010–013, 021–022) | Counterevidence included, LMTM first for small molecules; engagement ≠ benefit | FR-02 |
 | EV-08 | Full text inaccessible | Access limit stated; no invented methods review | FR-02, NFR-01 |
 | EV-09 | Draft guidance | Status and applicability kept; not binding | FR-07 |
 | EV-10 | A/G comparison | Discriminating next study with remaining gaps; no promotion | FR-06, FR-09 |

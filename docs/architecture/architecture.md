@@ -59,4 +59,4 @@ Candidate records own current ratings and gates; experiments own observations; l
 | Tool or source unavailable | Typed failure with access limit; no invented content |
 | Budget exhausted | Explicit partial result with unresolved questions |
 
-Selected stack (TD-01–TD-10): Python 3.12, Pydantic v2 with strict typing, Typer CLI, LangGraph, OpenAI SDK, SQLite, LangSmith, Docker ([tech-stack](tech-stack.md)). No HTTP API or queue in the first version. Cross-cutting: [security](security-and-data-governance.md), [cost](observability-and-cost.md), [evaluation](../delivery/evaluation-plan.md).
+Selected stack (ADR-011–ADR-020): Python 3.12, Pydantic v2 with strict typing, Typer CLI, LangGraph, OpenAI SDK, SQLite, LangSmith, Docker ([tech-stack](tech-stack.md)). No HTTP API or queue in the first version. Cross-cutting: [security](security-and-data-governance.md), [cost](observability-and-cost.md), [evaluation](../delivery/evaluation-plan.md).

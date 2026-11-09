@@ -8,11 +8,11 @@ CLAUDE.md  TASK.md  STATUS.md  GOALS.md  DECISIONS.md  MEMORY.md  PROJECT.md   c
 roles/          role contracts (researcher, reviewer, planner, regulatory, portfolio)
 molecules/      15 SYNTHETIC candidate profiles          ┐
 experiments/    20 SYNTHETIC experiment records          │ evidence layer
-literature/     20 real publications (abstract-level)    │ (index README + small
+literature/     23 real publications (abstract-level)    │ (index README + small
 knowledge/      pathways, research strategy, landscape   │  CLAUDE.md rules per folder)
 regulatory/     dated FDA references and gap assessment  │
 memory/         12 fictional campaign periods            ┘
-adr/            proposed architecture decision records
+adr/            decision records (001–010 proposed, 011–020 accepted)
 docs/           product/, architecture/, delivery/, context guide, glossary
 runbooks/  workflows/  config/   procedures and descriptive contracts
 .claude/        Claude Code skills, commands, Stop hook
@@ -41,10 +41,10 @@ Python 3.10+, standard library only; no credentials or network needed.
 python3 scripts/validate_repository.py
 python3 -m unittest discover -s tests -v
 ```
-They check links, labels, record IDs, score arithmetic, gates, and file-size budgets. They do not establish scientific truth, source currency, or design approval.
+They check links, labels, record IDs, score arithmetic, gates, rating evidence, ADR structure, Claude settings (including `.env` deny rules), and file-size budgets; record counts may grow above the minimums in `config/settings.json`. They do not establish scientific truth, source currency, or design approval.
 
 ## Configuration
-[.env.example](.env.example) lists placeholders (OpenAI, LangSmith, model tiers); copy with `cp -n .env.example .env`. Nothing reads `.env` today, and it is git-ignored. [config/](config/README.md) holds descriptive contracts (scoring, context budgets, disabled integrations); native Claude settings live in `.claude/settings.json`.
+[.env.example](.env.example) lists placeholders (OpenAI, LangSmith, Tavily, model tiers); copy with `cp -n .env.example .env`. Nothing reads `.env` today, and it is git-ignored. [config/](config/README.md) holds descriptive contracts (scoring, context budgets, disabled integrations); native Claude settings live in `.claude/settings.json`.
 
 ## Data and licensing
 Candidate, experiment, and history records are **SYNTHETIC DEMONSTRATION** data. Literature summaries cite real publications, which keep their own terms. No repository license is specified yet.

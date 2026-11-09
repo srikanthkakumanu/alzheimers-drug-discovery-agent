@@ -10,7 +10,7 @@ Roles are written responsibility contracts used by an operator or a Claude skill
 | [Regulatory](regulatory/CLAUDE.md) | Assess stage-specific evidence and guidance gaps | Portfolio | Capable |
 | [Portfolio](portfolio/CLAUDE.md) | Compare options and prepare the human decision packet | Human owner | Capable |
 
-Skip roles the question does not need. Tiers map to OpenAI models set in configuration ([tech-stack](../docs/architecture/tech-stack.md), TD-05).
+Skip roles the question does not need. Tiers map to OpenAI models set in configuration ([tech-stack](../docs/architecture/tech-stack.md), ADR-015).
 
 ## Shared rules (apply to every role)
 Root [CLAUDE.md](../CLAUDE.md) rules always apply. In addition:

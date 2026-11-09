@@ -1,7 +1,8 @@
 ---
 {
   "name": "neuroquest-review",
-  "description": "Compare NeuroQuest candidates, check score arithmetic and evidence gates, and recommend follow-up using linked synthetic records. Use for candidate triage or replication disputes."
+  "description": "Compare NeuroQuest candidates, check score arithmetic and evidence gates, and recommend follow-up using linked synthetic records. Use for candidate triage or replication disputes.",
+  "argument-hint": "[candidate IDs, e.g. A G N]"
 }
 ---
 

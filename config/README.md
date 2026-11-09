@@ -5,8 +5,8 @@ Descriptive project contracts read by the validator and by people. They are not 
 | File | Defines | Read by |
 | --- | --- | --- |
 | [scoring-model.json](scoring-model.json) | Weights (efficacy 40, safety 30, BBB 20, manufacturing 10), 0–5 rubric, missing-data rule, six promotion gates | Validator, reviewer and portfolio roles |
-| [settings.json](settings.json) | Data mode, execution flags (all off), context budgets, manual LLM policy, memory layout | Validator, operator |
-| [mcp.json](mcp.json) | Disabled inventory of possible integrations (PubMed, vector store, lab data) | Validator, operator |
+| [settings.json](settings.json) | Data mode, execution flags (all off), context budgets, LLM policy (OpenAI tiers, tracing), memory layout, validator minimum record counts | Validator, operator |
+| [mcp.json](mcp.json) | Disabled inventory of research-data integrations (PubMed, Tavily web search, vector store, lab data) | Validator, operator |
 
 ## Notes
 - `safety` replaces the skeleton’s `toxicity` so that every dimension is higher-is-better (`legacy_mapping` records this).

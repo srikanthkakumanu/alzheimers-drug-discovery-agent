@@ -1,6 +1,6 @@
 # Observability and LLM cost controls
 
-Design proposal. No telemetry, billing collection, or enforced budget exists today. Requirements: NFR-04, NFR-05, NFR-09. Selected tools: LangSmith tracing and datasets, OpenAI usage data, pytest (TD-05, TD-08).
+Design proposal. No telemetry, billing collection, or enforced budget exists today. Requirements: NFR-04, NFR-05, NFR-09. Selected tools: LangSmith tracing and datasets, OpenAI usage data, pytest (ADR-015, ADR-018).
 
 ## Signals to capture (future runtime)
 | Signal | Purpose | Exclude |

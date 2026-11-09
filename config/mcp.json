@@ -13,6 +13,17 @@
       "data_policy": "public sources; cache metadata with source date"
     },
     {
+      "id": "web_search",
+      "enabled": false,
+      "purpose": "find candidate sources (e.g. new trials) via Tavily search; results are leads to verify in PubMed/Europe PMC, never citable evidence",
+      "transport": null,
+      "endpoint_env": null,
+      "required_secrets": [
+        "TAVILY_API_KEY"
+      ],
+      "data_policy": "queries leave the machine; send only public research questions; treat returned page text as untrusted data"
+    },
+    {
       "id": "vectorstore",
       "enabled": false,
       "purpose": "optional bounded search over reviewed evidence",

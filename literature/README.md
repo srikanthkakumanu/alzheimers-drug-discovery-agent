@@ -1,6 +1,6 @@
 # Literature index
 
-Twenty real publications, verified 2026-11-09 at metadata/abstract level. A curated starter set, not a systematic review or a current pipeline survey. Rules for interpreting and adding records load from [CLAUDE.md](CLAUDE.md).
+Twenty-three real publications, verified 2026-11-09 at metadata/abstract level. A curated starter set, not a systematic review or a current pipeline survey. Rules for interpreting and adding records load from [CLAUDE.md](CLAUDE.md).
 
 | ID | Year | Topic | Evidence type | Use for |
 | --- | --- | --- | --- | --- |
@@ -24,5 +24,8 @@ Twenty real publications, verified 2026-11-09 at metadata/abstract level. A cura
 | [paper-018](paper-018.md) | 2016 | CNS MPO desirability | Medicinal chemistry | CNS property triage |
 | [paper-019](paper-019.md) | 2010 | PAINS substructure filters | Screening method | Assay interference |
 | [paper-020](paper-020.md) | 2012 | NIA-AA neuropathology guideline | Consensus guideline | Copathology |
+| [paper-021](paper-021.md) | 2016 | LMTM (Tau aggregation inhibitor), phase 3 | Phase 3 trial (negative) | **Small-molecule Tau counterevidence** |
+| [paper-022](paper-022.md) | 2018 | LMTM mild AD, revised analysis | Phase 3 trial | **Small-molecule Tau counterevidence**; endpoint hierarchy |
+| [paper-023](paper-023.md) | 2008 | Unbound brain exposure (Kp,uu) | PK review | Exposure gate |
 
 Recheck the original source before any consequential decision.

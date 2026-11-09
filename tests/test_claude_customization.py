@@ -31,7 +31,7 @@ class ClaudeCustomizationTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name) / 'project with spaces'
         shutil.copytree(ROOT, self.root, ignore=shutil.ignore_patterns(
-            '.env', '.git', '.venv', '__pycache__', '.cache', '.validation-cache'))
+            '.env', '.git', '.venv', '__pycache__', '.cache', '.validation-cache', 'var'))
 
     def errors(self):
         return validator.validate(self.root)
@@ -72,6 +72,23 @@ class ClaudeCustomizationTests(unittest.TestCase):
         )
         self.assertEqual(1, result.returncode)
         self.assertNotIn(marker, result.stdout + result.stderr)
+
+    def test_hook_missing_validator_reports_problem(self):
+        (self.root / 'scripts/validate_repository.py').unlink()
+        output = hook.evaluate({'hook_event_name': 'Stop'}, self.root)
+        self.assertEqual('block', output['decision'])
+        self.assertIn('validator not found', output['reason'])
+
+    def test_hook_reports_count_of_truncated_failures(self):
+        failure = subprocess.CompletedProcess([], 1, '', '\n'.join(f'ERROR item {i}' for i in range(12)))
+        with patch.object(hook.subprocess, 'run', return_value=failure):
+            output = hook.evaluate({'hook_event_name': 'Stop'}, self.root)
+        self.assertIn('and 4 more', output['reason'])
+
+    def test_project_settings_deny_env_access(self):
+        settings = json.loads((ROOT / '.claude/settings.json').read_text())
+        self.assertIn('Read(./.env)', settings['permissions']['deny'])
+        self.assertNotIn('Read(./.env.example)', settings['permissions']['deny'])
 
     def test_hook_wrong_event_is_rejected(self):
         with self.assertRaisesRegex(ValueError, 'Stop hook event'):

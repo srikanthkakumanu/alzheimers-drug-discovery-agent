@@ -14,20 +14,20 @@
       "timeout-minutes": 5,
       "steps": [
         {
-          "uses": "actions/checkout@v4"
+          "uses": "actions/checkout@v5"
         },
         {
-          "uses": "actions/setup-python@v5",
+          "uses": "actions/setup-python@v6",
           "with": {
             "python-version": "3.12"
           }
         },
         {
-          "name": "Validate context and evidence contracts",
+          "name": "Validate repository contracts",
           "run": "python3 scripts/validate_repository.py"
         },
         {
-          "name": "Exercise validation failure cases",
+          "name": "Run validator and hook tests",
           "run": "python3 -m unittest discover -s tests -v"
         }
       ]

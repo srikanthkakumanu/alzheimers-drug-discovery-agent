@@ -17,6 +17,17 @@ Shared definitions so records and prompts can link here instead of re-explaining
 | Decision packet | Role output for the human owner: comparison, gates, uncertainty, recommended next action |
 | Campaign period | Fictional relative step (01–12) in the synthetic scenario, not a date |
 
+## Technology terms
+| Term | Meaning |
+| --- | --- |
+| Model tier | economical / capable / escalation; each maps to an OpenAI model ID set in configuration |
+| Structured Outputs | OpenAI feature that constrains replies to a JSON schema (generated from a Pydantic model) |
+| LangGraph node / interrupt | One step of the run graph / a pause that waits for a human decision |
+| Checkpoint | Saved graph state that lets a paused run resume |
+| LangSmith trace | Step-by-step record of a run (inputs, outputs, tokens) in LangSmith |
+| FTS5 | SQLite full-text search used for keyword retrieval |
+| Prompt version | Template version plus hash of composed rules, role contract, and output schema |
+
 ## Scientific terms
 | Term | Meaning |
 | --- | --- |
@@ -25,7 +36,7 @@ Shared definitions so records and prompts can link here instead of re-explaining
 | IC50 / CC50 | Concentration giving half-maximal inhibition / half-maximal cytotoxicity |
 | hERG | Cardiac ion channel; inhibition is an early arrhythmia-risk screen |
 | Papp / efflux ratio | In vitro apparent permeability / transporter-driven efflux; not brain exposure |
-| Kp,uu | Unbound brain-to-plasma ratio; requires in vivo measurement |
+| Kp,uu | Unbound brain-to-plasma ratio; requires in vivo measurement ([paper-023](../literature/paper-023.md)) |
 | Z-prime | Assay-quality statistic; < 0.5 is commonly treated as inadequate separation |
 | PAINS | Substructures that frequently cause assay interference |
 | ASO | Antisense oligonucleotide (a Tau-lowering modality distinct from small molecules) |

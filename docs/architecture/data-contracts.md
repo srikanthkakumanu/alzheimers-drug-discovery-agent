@@ -15,7 +15,7 @@ Field-level contracts for repository records and proposed application records. F
 | `gates` | six keys → pass/fail/unknown | Any `fail` ⇒ `blocked` |
 | `human_approval` | boolean | `false` throughout the demonstration |
 | `experiment_ids`, `literature_ids` | string[] | Experiment links must be reciprocal |
-| `rating_evidence` | dimension → experiment IDs | Completed experiments that measured this candidate |
+| `rating_evidence` | dimension → experiment IDs | Completed experiments that measured this candidate (validator-enforced for non-null ratings) |
 | `score_history` | optional list | `{weighted_score, scores, basis, status, challenged_by, use}`; never ranked |
 
 ## Experiment (`experiments/EXP-NNN.md`)
@@ -33,7 +33,7 @@ Field-level contracts for repository records and proposed application records. F
 `id`, `provenance: "published"`, `pmid` (digits, unique), `doi`, `year`, `evidence_type`, `review_scope: "indexed metadata and abstract only"`, `verified_on` (ISO date), `tags`. Body shows **PUBLISHED EVIDENCE** with PubMed and DOI links matching the frontmatter.
 
 ## Campaign period (`memory/month-NN.md`) and ADR (`adr/ADR-NNN.md`)
-Period: `id`, `provenance: "synthetic"`, `campaign_period`, `calendar_mapping: null`. ADR: `id`, `title`, `status`, `decision_type`, `recorded_on`, optional `reviewed_on`.
+Period: `id`, `provenance: "synthetic"`, `campaign_period`, `calendar_mapping: null`. ADR: `id`, `title`, `status` (proposed · accepted · rejected · deprecated · superseded), `decision_type`, `recorded_on`; `reviewed_on` required once not proposed; six standard sections.
 
 ## Semantics
 - **Current vs historical:** current fields hold only evidence accepted for current comparison. When a material conflict appears, set the rating to `null` and preserve the old value in `score_history` with its basis and challenger (candidate N).
@@ -46,12 +46,12 @@ Period: `id`, `provenance: "synthetic"`, `campaign_period`, `calendar_mapping: n
 | Run | `run_id`, question, scope, record IDs + versions, step transitions, tool calls, model and prompt versions, token usage, budget state, final status |
 | Human decision | `decision_id`, packet version, evidence versions, disposition, accountable actor (authenticated), timestamp, reason |
 
-A model must never generate the actor or timestamp of a human decision. Run, checkpoint, and decision records live in SQLite (TD-06); authentication is decided with the deployment model.
+A model must never generate the actor or timestamp of a human decision. Run, checkpoint, and decision records live in SQLite (ADR-016); authentication is decided with the deployment model.
 
 ## Change control
 Keep primary observations intact when interpretation changes. Distinguish source date, verification date, fictional period, and real review date. Never backdate studies or treat an archive entry as proof that work occurred.
 
-## Implementation models (Pydantic v2, strict typing — TD-03)
+## Implementation models (Pydantic v2, strict typing — ADR-013)
 Each contract above becomes one Pydantic model; the validator’s rules become model validators so the CLI, graph, and checks share one definition.
 
 | Model | Key types and validators |

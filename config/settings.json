@@ -24,16 +24,26 @@
     "bulk_imports": false
   },
   "llm_policy": {
-    "enforcement": "manual policy; no API client",
+    "enforcement": "documented policy; no application client exists yet",
+    "provider": "openai",
+    "sdk": "openai-python, called directly in LangGraph nodes",
+    "tiers": {
+      "economical": "NEUROQUEST_MODEL_ECONOMICAL",
+      "capable": "NEUROQUEST_MODEL_CAPABLE",
+      "escalation": "NEUROQUEST_MODEL_ESCALATION"
+    },
     "default_tier": "economical",
     "escalate_for": [
       "unresolved evidence conflict",
       "high-impact scientific or regulatory synthesis"
     ],
+    "structured_output": "Pydantic models via OpenAI Structured Outputs; re-validated",
     "bounded_output": true,
     "reuse_verified_summaries": true,
-    "provider_caching": "optional only if supported; never assumed",
-    "monthly_budget_usd": null
+    "prompt_caching": "automatic provider prefix caching; measure cached_tokens, never assume",
+    "tracing": "langsmith (LANGSMITH_TRACING); synthetic and public data only",
+    "monthly_budget_usd": null,
+    "per_run_budget_usd": null
   },
   "memory": {
     "mode": "manual-linked-files",
@@ -43,6 +53,13 @@
   },
   "validation": {
     "command": "python3 scripts/validate_repository.py",
-    "test_command": "python3 -m unittest discover -s tests -v"
+    "test_command": "python3 -m unittest discover -s tests -v",
+    "minimum_records": {
+      "molecules": 15,
+      "experiments": 20,
+      "literature": 23,
+      "memory": 12,
+      "adr": 20
+    }
   }
 }

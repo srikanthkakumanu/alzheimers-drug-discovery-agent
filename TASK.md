@@ -15,7 +15,9 @@ Follow the [review plan](docs/delivery/review-plan.md). Start with [PROJECT.md](
 | 5 | Set a per-run and monthly LLM budget and the exhausted-budget behavior | [cost design](docs/architecture/observability-and-cost.md) |
 | 6 | Approve evaluation scenarios and release thresholds | [evaluation plan](docs/delivery/evaluation-plan.md) |
 | 7 | Approve the first implementation slice | [implementation plan](docs/delivery/implementation-plan.md) |
-| 8 | Decide data scope beyond public literature and synthetic records | [data governance](docs/architecture/security-and-data-governance.md) |
+| 8 | Decide data scope beyond public literature and synthetic records, and whether to enable Tavily web search | [data governance](docs/architecture/security-and-data-governance.md) |
+| 9 | Choose a repository license | [README](README.md) |
+| 10 | Confirm the portfolio stays Tau-only (no amyloid/inflammation comparator candidates) | [research strategy](knowledge/research-strategy.md) |
 
 ## Done when
 - Every row above has a recorded owner disposition.

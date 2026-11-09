@@ -31,6 +31,6 @@ Evidence-grounded review of Tau-focused research candidates for human decision o
 Never bulk-read directories or use `@` imports. Budgets and model escalation: [context guide](docs/context-guide.md).
 
 ## Output and maintenance
-Handoffs ≤400 estimated tokens: question · record IDs · finding · uncertainty and gates · next action. Link records; do not paste them.
+Application code (when requested) follows [application design → Conventions](docs/architecture/application-design.md#conventions). Handoffs ≤400 estimated tokens: question · record IDs · finding · uncertainty and gates · next action. Link records; do not paste them.
 
 After edits run `python3 scripts/validate_repository.py`. Record IDs equal filenames; keep labels, reciprocal IDs, and score arithmetic valid. Claude setup: [docs/claude-code.md](docs/claude-code.md).

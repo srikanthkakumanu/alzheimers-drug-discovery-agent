@@ -1,7 +1,8 @@
 ---
 {
   "name": "neuroquest-plan",
-  "description": "Propose the next informative study concept for a NeuroQuest candidate's unresolved evidence gate. Use after evidence review; it does not execute experiments or authorize advancement."
+  "description": "Propose the next informative study concept for a NeuroQuest candidate's unresolved evidence gate. Use after evidence review; it does not execute experiments or authorize advancement.",
+  "argument-hint": "[candidate ID] [unresolved gate]"
 }
 ---
 

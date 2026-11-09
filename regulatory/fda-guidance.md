@@ -7,9 +7,11 @@ Sources checked **2026-11-09**. Research reference only; the portfolio is **SYNT
 | --- | --- | --- |
 | [Early Alzheimer’s Disease: Developing Drugs for Treatment](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/early-alzheimers-disease-developing-drugs-treatment) | March 2024 revised **draft**; non-binding; replaces the 2018 draft | Stage-aware early-AD clinical development considerations |
 | [ICH M3(R2), FDA-hosted text](https://www.fda.gov/media/71542/download) | June 2009, Step 4 final guideline | Timing and extent of nonclinical safety studies supporting clinical trials |
+| [ICH S7B — Nonclinical Evaluation of the Potential for Delayed Ventricular Repolarization (QT Interval Prolongation)](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/s7b-nonclinical-evaluation-potential-delayed-ventricular-repolarization-qt-interval-prolongation) | October 2005, final | Nonclinical QT/hERG assessment framework (relevant to candidate D’s block) |
+| [ICH E14 and S7B Questions and Answers (R1)](https://www.fda.gov/regulatory-information/search-fda-guidance-documents/e14-and-s7b-clinical-and-nonclinical-evaluation-qtqtc-interval-prolongation-and-proarrhythmic) | Final; FDA page dated October 2026 | Integrated clinical/nonclinical proarrhythmia assessment |
 | [FDA IND pharmacology/toxicology information](https://www.fda.gov/drugs/investigational-new-drug-application-ind/ind-applications-clinical-investigations-pharmacology-and-toxicology-pt-information) | Web reference | Entry point for nonclinical IND information |
 
-Recheck each page for supersession before relying on it. A draft recommendation is never a binding requirement or an authorization.
+Jurisdiction gap: only FDA sources are registered; the EMA Alzheimer’s clinical-investigation guideline has not been verified and is not cited. Recheck each page for supersession before relying on it. A draft recommendation is never a binding requirement or an authorization.
 
 ## Demonstration gap assessment (all candidates)
 | Area | Missing evidence | Consequence |
@@ -17,7 +19,7 @@ Recheck each page for supersession before relying on it. A draft recommendation 
 | Identity / quality | Defined structures, analytical identity, qualified batches, stability, reproducible process | Research slots are not characterized drug substances |
 | Pharmacology | Direct engagement, selective mechanism, disease-relevant confirmation | Synthetic assay activity cannot establish efficacy |
 | Exposure | In vivo free brain/plasma exposure linked to effect | In vitro permeability is insufficient |
-| Safety | Qualified nonclinical studies and exposure margins | A small in vitro panel cannot support clinical entry |
+| Safety | Qualified nonclinical studies and exposure margins; for hERG signals, an S7B-style integrated assessment | A small in vitro panel cannot support clinical entry |
 | Clinical development | Population, endpoints, biomarker interpretation, protocol, sponsor | No IND-ready or patient-use claim is supportable |
 
 The [2018 framework](../literature/paper-002.md) and [2024 criteria](../literature/paper-003.md) are scientific references, not FDA rules. A biomarker response does not automatically substitute for clinical benefit.

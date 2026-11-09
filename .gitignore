@@ -27,6 +27,13 @@ build/
 dist/
 .ipynb_checkpoints/
 
+# --- Runtime state: SQLite runs/checkpoints hold prompts and outputs ---
+var/
+*.sqlite3
+*.sqlite
+*.db
+.langgraph_api/
+
 # --- Project-local caches and logs ---
 .cache/
 .validation-cache/

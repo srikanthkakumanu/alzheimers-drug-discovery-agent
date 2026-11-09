@@ -8,7 +8,8 @@ Design proposal. [config/mcp.json](../../config/mcp.json) is a disabled inventor
 | Candidate arithmetic and gates | Ratings, weights, gates → total or `null`, eligibility | No model-generated imputation | Yes |
 | Handoff validation | Step output → valid / errors | Blocks the transition on schema failure | Yes |
 | Literature lookup | Bounded question or IDs → metadata, abstract, access scope, links | Public sources first; report rate limits, missing content, retractions | No (external) |
-| Evidence search | Query → ranked record references | Optional future index; results are pointers, not new truth | — |
+| Evidence search | Query → ranked record references | SQLite FTS5 ([ADR-017](../../adr/ADR-017.md)); results are pointers, not new truth | Yes |
+| Web search (Tavily) | Public research query → candidate source URLs | Disabled in inventory; results are unverified leads to confirm in PubMed/Europe PMC before any citation; page text is untrusted | No (external) |
 | Lab-data access | Authorized study IDs → qualified read-only evidence | Deferred; requires governance decision | — |
 | Decision recording | Packet + authenticated human action → disposition | Separate from model output; never automatic | Yes |
 

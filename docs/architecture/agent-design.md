@@ -1,6 +1,6 @@
 # Agent design — roles, graph, handoffs
 
-Design only; nothing is implemented. Role contracts: [roles/](../../roles/README.md). Decision: [ADR-004](../../adr/ADR-004.md); technology: LangGraph (TD-04), OpenAI SDK (TD-05), Pydantic (TD-03) in [tech-stack](tech-stack.md).
+Design only; nothing is implemented. Role contracts: [roles/](../../roles/README.md). Decision: [ADR-004](../../adr/ADR-004.md); technology: LangGraph (ADR-014), OpenAI SDK (ADR-015), Pydantic (ADR-013) in [tech-stack](tech-stack.md).
 
 ## Role I/O
 | Role | Input | Output | Must not infer |

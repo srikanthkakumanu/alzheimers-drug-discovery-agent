@@ -8,7 +8,7 @@ Draft. Priority is a qualitative judgment; no probabilities were estimated. Revi
 | R-02 | Poor translation | High | Cell activity without exposure or engagement | Require measured free CNS exposure linked to effect | Planner |
 | R-03 | Safety liability | High | D-like hERG signal ignored | Hard block; independent safety assessment | Regulatory |
 | R-04 | Replication failure | High | N-like site conflict kept in ranking | Null current rating; `score_history`; investigate | Reviewer |
-| R-05 | Tau-first anchoring | High | Negative trials ignored | Counterevidence mandatory in Tau answers (papers 010–013) | Researcher |
+| R-05 | Tau-first anchoring | High | Negative trials ignored | Counterevidence mandatory in Tau answers (papers 010–013, 021–022) | Researcher |
 | R-06 | Fiction mistaken for fact | High | Synthetic results cited as published | Record and claim-level provenance labels; validator | All roles |
 | R-07 | Fabricated citation | High | Model invents a paper or identifier | Cite only indexed IDs; verify new PMIDs/DOIs before adding | Researcher |
 | R-08 | Prompt injection via sources | High | Retrieved text issues instructions or requests secrets | Treat sources as data; least-privilege tools; no secrets in context | All roles |
